@@ -642,7 +642,7 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
     <button class="export-btn reveal" id="export-btn" type="button" data-i18n="exportBtn">Deine Antworten als Datei mitnehmen</button>
     <div class="export-confirm" id="export-confirm" data-i18n="exportConfirm">Heruntergeladen — sie liegt jetzt nur bei dir.</div>
     <p class="reveal" style="font-size:.82rem;margin-top:16px;" data-i18n="closingP3">Leere Fragen werden nicht als Fehler gezählt — sie bleiben einfach leer.</p>
-    <a class="portal-invite reveal" href="Flowfamily_Alignment-Fragebogen.html" style="margin-top:20px;">
+    <a class="portal-invite reveal" id="alignmentLink" href="Flowfamily_Alignment-Fragebogen.html" style="margin-top:20px;">
       <span class="pg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="1.6" fill="hsl(308,78%,64%)"/></svg></span>
       <span class="ptxt">
         <span class="pt" data-i18n="alignInviteTitle">Raum · das 5. Portal</span>
@@ -1272,6 +1272,12 @@ function importNotes(ev){
 }
 
 /* ---------- boot ---------- */
+var alignmentLink = document.getElementById('alignmentLink');
+if (alignmentLink && window.claude){
+  alignmentLink.href = 'https://claude.ai/code/artifact/ef270e99-d7aa-424d-b807-b211ea9b8d48';
+  alignmentLink.target = '_blank';
+  alignmentLink.rel = 'noopener';
+}
 restoreFields();
 restoreFeedback();
 restoreChips();
