@@ -1234,10 +1234,16 @@ function doDownload(){
   var fallback = tr('filenameFallback');
   var name = (state.fields && state.fields.ansprache || fallback).toLowerCase()
     .replace(/[^a-z0-9äöüß\-\s]/gi, '').trim().replace(/\s+/g, '-') || fallback;
-  var blob = new Blob([JSON.stringify(exportState(), null, 2)], { type: 'application/json' });
+  var filename = name + '-flowfamily.json';
+  var json = JSON.stringify(exportState(), null, 2);
+  if (window.claude && window.claude.downloads){
+    window.claude.downloads.save({ filename: filename, data: json }).catch(function(){});
+    return;
+  }
+  var blob = new Blob([json], { type: 'application/json' });
   var a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = name + '-flowfamily.json';
+  a.download = filename;
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
 }
