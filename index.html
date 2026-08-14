@@ -548,6 +548,9 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
       <textarea class="fieldbox" data-field="alltag_beitrag_andere" rows="1" data-i18n-ph="chipContribOtherPh" placeholder="Etwas anderes? …" style="margin-top:8px;"></textarea></div>
     <div class="field reveal"><label for="q-contrib-energie" data-i18n="qContribEnergieLabel">Was davon gibt dir Energie, und was zieht sie dir?</label>
       <textarea class="fieldbox" id="q-contrib-energie" data-field="alltag_beitrag_energie" rows="2" placeholder="…"></textarea></div>
+    <div class="field reveal"><label for="q-physical-needs" data-i18n="qPhysicalNeedsLabel">Was brauchst du körperlich, um an deine beste Schöpfer:in-Version heranzukommen?</label>
+      <span class="hint" data-i18n="qPhysicalNeedsHint">Denk an Unterkunft, Zugang zu Wasser (z. B. ein Pool), Nähe zur Natur, ein wärmeres oder kühleres Klima, Luxus oder eher bodenständig — was auch immer dir dazu einfällt.</span>
+      <textarea class="fieldbox" id="q-physical-needs" data-field="schoepfer_beduerfnisse" rows="2" placeholder="…"></textarea></div>
 
     <div class="field reveal"><label for="q-capacity" data-i18n="qCapacityLabel">Wie fühlt sich für dich ein Rhythmus an, in dem du geben kannst, ohne dich zu verlieren?</label>
       <span class="hint" data-i18n="qCapacityHint">In Wellen, an einem festen Tag, nur wenn du gerufen wirst, oder noch unklar — alles gültig. Und, falls hilfreich: Woran merkst du bei dir selbst, dass du an deine Grenze kommst?</span>
@@ -706,9 +709,6 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
         <button type="button" class="mc-chip" data-field="fuehrerschein" data-value="Ja" data-i18n="chipYesSimple">Ja</button>
         <button type="button" class="mc-chip" data-field="fuehrerschein" data-value="Nein" data-i18n="chipNoSimple">Nein</button>
       </div></div>
-    <div class="field reveal"><label for="q-physical-needs" data-i18n="qPhysicalNeedsLabel">Was brauchst du körperlich, um an deine beste Schöpfer:in-Version heranzukommen?</label>
-      <span class="hint" data-i18n="qPhysicalNeedsHint">Unterkunftsart, Wasserzugang (Pool), Natur, warmer Ort, kalter Ort, Luxus, eher bodenständig — was auch immer dir dazu einfällt.</span>
-      <textarea class="fieldbox" id="q-physical-needs" data-field="schoepfer_beduerfnisse" rows="2" placeholder="…"></textarea></div>
 
     <details class="fb" data-node="portal3">
       <summary data-i18n="p3FbSummary">Notiz zu &bdquo;Erforschen&ldquo;</summary>
@@ -985,7 +985,7 @@ var I18N = {
   chipYesSimple: { de:"Ja", en:"Yes" },
   chipNoSimple: { de:"Nein", en:"No" },
   qPhysicalNeedsLabel: { de:"Was brauchst du körperlich, um an deine beste Schöpfer:in-Version heranzukommen?", en:"What do you physically need to access your best creator/creatrix self?" },
-  qPhysicalNeedsHint: { de:"Unterkunftsart, Wasserzugang (Pool), Natur, warmer Ort, kalter Ort, Luxus, eher bodenständig — was auch immer dir dazu einfällt.", en:"Accommodation type, water source (pool), nature, a hot place, a cold place, luxury, more down to earth — whatever comes to mind." },
+  qPhysicalNeedsHint: { de:"Denk an Unterkunft, Zugang zu Wasser (z. B. ein Pool), Nähe zur Natur, ein wärmeres oder kühleres Klima, Luxus oder eher bodenständig — was auch immer dir dazu einfällt.", en:"Think accommodation, access to water (a pool, maybe), closeness to nature, a warmer or cooler climate, luxury or something more down-to-earth — whatever comes to mind." },
   qPurposeLabel: { de:"Ganz ungefiltert, ohne es \"richtig\" machen zu müssen: warum bist du hier auf diesem Planeten? Schreib einfach, was kommt.", en:"Right now, unfiltered, no need to get it \"right\": why are you here on this planet? Just write whatever comes." },
   qPurposeHint: { de:"Keine Analyse, keine Formulierung, die \"stimmen\" muss. Nur eine Ahnung.", en:"No analysis, no phrasing that has to be \"right.\" Just a hunch." },
   p3FbSummary: { de:"Notiz zu „Erforschen“", en:"Note on \"Exploring\"" },
