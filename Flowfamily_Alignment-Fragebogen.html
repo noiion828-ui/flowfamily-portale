@@ -1501,6 +1501,15 @@ function makeGlyphTexture(THREE, key){
   return tex;
 }
 
+function orbGlowHtml(){
+  return '<div class="fe-orb-glow"><svg viewBox="0 0 160 160"><defs>' +
+    '<radialGradient id="feOrbGrad" cx="50%" cy="50%" r="50%">' +
+    '<stop offset="0%" stop-color="hsl(42,85%,70%)" stop-opacity=".35"/>' +
+    '<stop offset="55%" stop-color="hsl(42,85%,65%)" stop-opacity=".1"/>' +
+    '<stop offset="100%" stop-color="hsl(42,85%,65%)" stop-opacity="0"/>' +
+    '</radialGradient></defs><circle cx="80" cy="80" r="70" fill="url(#feOrbGrad)"/></svg></div>';
+}
+
 function startThree(THREE, mount, opts){
   var w = mount.clientWidth || 160, h = mount.clientHeight || 160;
   var scene = new THREE.Scene();
@@ -1518,6 +1527,7 @@ function startThree(THREE, mount, opts){
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.setSize(w, h);
   renderer.domElement.style.background = 'transparent';
+  mount.insertAdjacentHTML('afterbegin', orbGlowHtml());
   mount.appendChild(renderer.domElement);
   window.__FE_TIER = 'webgl';
   window.__FE_CTX = ctxAttrs;
@@ -1617,12 +1627,7 @@ function startCssFallback(mount, opts){
     '<div class="fe-face fe-f-top"></div><div class="fe-face fe-f-bottom"></div>';
   mount.innerHTML =
     '<div class="fe-cube-wrap">' +
-    '<div class="fe-orb-glow"><svg viewBox="0 0 160 160"><defs>' +
-    '<radialGradient id="feOrbGrad" cx="50%" cy="50%" r="50%">' +
-    '<stop offset="0%" stop-color="hsl(42,85%,70%)" stop-opacity=".35"/>' +
-    '<stop offset="55%" stop-color="hsl(42,85%,65%)" stop-opacity=".1"/>' +
-    '<stop offset="100%" stop-color="hsl(42,85%,65%)" stop-opacity="0"/>' +
-    '</radialGradient></defs><circle cx="80" cy="80" r="70" fill="url(#feOrbGrad)"/></svg></div>' +
+    orbGlowHtml() +
     '<div class="fe-cube-outer"><div class="fe-cube3d">' + faceHtml + '</div></div></div>';
   if (!opts.interactive) return;
   var cube3d = mount.querySelector('.fe-cube3d');
