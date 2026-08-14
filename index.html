@@ -315,12 +315,20 @@ input[type=range].falsify.unset::-moz-range-thumb{opacity:0;}
 .closing p{max-width:30rem;margin-inline:auto;}
 .birdfig{width:64px;height:40px;margin:8px auto 20px;}
 .birdfig svg{width:100%;height:100%;stroke:hsl(var(--h),var(--as),var(--al));fill:none;stroke-width:1.6;stroke-linecap:round;}
-.export-btn{margin-top:20px;appearance:none;cursor:pointer;background:hsl(var(--h),var(--as),var(--al));border:none;
-  color:var(--bg);font-family:var(--f-label);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;
-  padding:15px 24px;border-radius:var(--r-chip);box-shadow:0 10px 26px -10px hsla(var(--h),var(--as),var(--al),.6);}
-.export-confirm{margin-top:12px;font-family:var(--f-label);font-weight:700;font-size:10.5px;letter-spacing:.06em;
-  text-transform:uppercase;color:hsl(var(--h),var(--as),var(--al));opacity:0;transition:opacity .4s ease;}
-.export-confirm.visible{opacity:1;}
+.export-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:20px;}
+.export-btn,.telegram-btn{margin-top:0;appearance:none;cursor:pointer;border:none;
+  font-family:var(--f-label);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  padding:15px 24px;border-radius:var(--r-chip);}
+.export-btn{background:hsl(var(--h),var(--as),var(--al));color:var(--bg);
+  box-shadow:0 10px 26px -10px hsla(var(--h),var(--as),var(--al),.6);}
+.telegram-btn{background:#2AABEE;color:#fff;display:inline-flex;align-items:center;gap:8px;
+  box-shadow:0 10px 26px -10px rgba(42,171,238,.6);}
+.telegram-btn svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.export-confirm,.telegram-confirm{margin-top:12px;font-family:var(--f-label);font-weight:700;font-size:10.5px;letter-spacing:.06em;
+  text-transform:uppercase;opacity:0;transition:opacity .4s ease;}
+.export-confirm{color:hsl(var(--h),var(--as),var(--al));}
+.telegram-confirm{color:#2AABEE;}
+.export-confirm.visible,.telegram-confirm.visible{opacity:1;}
 footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);font-weight:600;font-size:10.5px;
   letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);border-top:1px solid var(--hair);max-width:40rem;margin:0 auto;}
 
@@ -698,6 +706,9 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
         <button type="button" class="mc-chip" data-field="fuehrerschein" data-value="Ja" data-i18n="chipYesSimple">Ja</button>
         <button type="button" class="mc-chip" data-field="fuehrerschein" data-value="Nein" data-i18n="chipNoSimple">Nein</button>
       </div></div>
+    <div class="field reveal"><label for="q-physical-needs" data-i18n="qPhysicalNeedsLabel">Was brauchst du körperlich, um an deine beste Schöpfer:in-Version heranzukommen?</label>
+      <span class="hint" data-i18n="qPhysicalNeedsHint">Unterkunftsart, Wasserzugang (Pool), Natur, warmer Ort, kalter Ort, Luxus, eher bodenständig — was auch immer dir dazu einfällt.</span>
+      <textarea class="fieldbox" id="q-physical-needs" data-field="schoepfer_beduerfnisse" rows="2" placeholder="…"></textarea></div>
 
     <details class="fb" data-node="portal3">
       <summary data-i18n="p3FbSummary">Notiz zu &bdquo;Erforschen&ldquo;</summary>
@@ -732,13 +743,18 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
       <span class="hint" data-i18n="qMetaHint">Über das Werkzeug selbst, nicht über dich. Fehlt eine Frage? Ist etwas unklar oder überflüssig? Sag's uns.</span>
       <textarea class="fieldbox" id="q-meta" data-field="meta_fragebogen_feedback" rows="2" placeholder="…"></textarea></div>
 
-    <button class="export-btn reveal" id="export-btn" type="button" data-i18n="exportBtn">Deine Antworten als Datei mitnehmen</button>
+    <div class="export-actions reveal">
+      <button class="export-btn" id="export-btn" type="button" data-i18n="exportBtn">Deine Antworten als Datei mitnehmen</button>
+      <button class="telegram-btn" id="telegram-btn" type="button"><svg viewBox="0 0 24 24"><path d="M21 3L2 10.5l6 2.3M21 3l-3.5 17L11 15m10-12L11 15m0 0l-3.8 3.6L7 15"/></svg><span data-i18n="telegramBtn">Direkt per Telegram teilen</span></button>
+    </div>
     <div class="export-confirm" id="export-confirm" data-i18n="exportConfirm">Heruntergeladen — sie liegt jetzt nur bei dir.</div>
+    <div class="telegram-confirm" id="telegram-confirm" data-i18n="telegramShareConfirmCopy">In die Zwischenablage kopiert — füg es einfach in Telegram ein.</div>
     <p class="reveal" style="font-size:.82rem;margin-top:16px;" data-i18n="closingP3">Leere Fragen werden nicht als Fehler gezählt — sie bleiben einfach leer.</p>
-    <a class="portal-invite reveal" id="alignmentLink" href="Flowfamily_Alignment-Fragebogen.html" style="margin-top:20px;">
+    <p class="sec-label reveal" style="text-align:center;margin-top:26px;margin-bottom:0;color:hsl(308,78%,64%);" data-i18n="alignInviteKicker">Es gibt einen zweiten Fragebogen — ganz freiwillig, aber wir würden uns sehr freuen.</p>
+    <a class="portal-invite reveal" id="alignmentLink" href="Flowfamily_Alignment-Fragebogen.html" style="margin-top:10px;">
       <span class="pg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="1.6" fill="hsl(308,78%,64%)"/></svg></span>
       <span class="ptxt">
-        <span class="pt" data-i18n="alignInviteTitle">Raum · das 5. Portal</span>
+        <span class="pt" data-i18n="alignInviteTitle">Weiter zu Fragebogen 2 · Raum</span>
         <span class="pd" data-i18n="alignInviteDesc">Was bleibt, wenn Wasser, Erde, Feuer und Luft durch dich gegangen sind. Das ist der zweite Fragebogen — und der Ort, an dem deine Antworten später mit Human Design, Gene Keys &amp; Numerologie zu deinem eigenen Bild zusammenfinden.</span>
       </span>
       <span class="pa" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -968,6 +984,8 @@ var I18N = {
   qDriveLabel: { de:"Hast du einen Führerschein?", en:"Do you have a driving licence?" },
   chipYesSimple: { de:"Ja", en:"Yes" },
   chipNoSimple: { de:"Nein", en:"No" },
+  qPhysicalNeedsLabel: { de:"Was brauchst du körperlich, um an deine beste Schöpfer:in-Version heranzukommen?", en:"What do you physically need to access your best creator/creatrix self?" },
+  qPhysicalNeedsHint: { de:"Unterkunftsart, Wasserzugang (Pool), Natur, warmer Ort, kalter Ort, Luxus, eher bodenständig — was auch immer dir dazu einfällt.", en:"Accommodation type, water source (pool), nature, a hot place, a cold place, luxury, more down to earth — whatever comes to mind." },
   qPurposeLabel: { de:"Ganz ungefiltert, ohne es \"richtig\" machen zu müssen: warum bist du hier auf diesem Planeten? Schreib einfach, was kommt.", en:"Right now, unfiltered, no need to get it \"right\": why are you here on this planet? Just write whatever comes." },
   qPurposeHint: { de:"Keine Analyse, keine Formulierung, die \"stimmen\" muss. Nur eine Ahnung.", en:"No analysis, no phrasing that has to be \"right.\" Just a hunch." },
   p3FbSummary: { de:"Notiz zu „Erforschen“", en:"Note on \"Exploring\"" },
@@ -978,10 +996,13 @@ var I18N = {
   closingP2: { de:"Falls du Geburtsdaten dagelassen hast: dein eigenes Bild bekommst du zuerst zu sehen, bevor irgendetwas davon in eine Entscheidung über dich einfließt.", en:"If you left birth data behind: you get to see your own picture first, before any of it factors into a decision about you." },
   exportBtn: { de:"Deine Antworten als Datei mitnehmen", en:"Take your answers as a file" },
   exportConfirm: { de:"Heruntergeladen — sie liegt jetzt nur bei dir.", en:"Downloaded — it's yours alone now." },
+  telegramBtn: { de:"Direkt per Telegram teilen", en:"Share straight to Telegram" },
+  telegramShareConfirmCopy: { de:"In die Zwischenablage kopiert — füg es einfach in Telegram ein.", en:"Copied to your clipboard — just paste it into Telegram." },
   closingP3: { de:"Leere Fragen werden nicht als Fehler gezählt — sie bleiben einfach leer.", en:"Blank questions aren't counted as errors — they just stay blank." },
   qMetaLabel: { de:"Und zum Fragebogen selbst: Was würdest du ändern, ergänzen oder anders bauen?", en:"And about the questionnaire itself: what would you change, add, or build differently?" },
   qMetaHint: { de:"Über das Werkzeug selbst, nicht über dich. Fehlt eine Frage? Ist etwas unklar oder überflüssig? Sag's uns.", en:"About the tool itself, not about you. Missing a question? Something unclear or unnecessary? Tell us." },
-  alignInviteTitle: { de:"Raum · das 5. Portal", en:"Space · the 5th portal" },
+  alignInviteKicker: { de:"Es gibt einen zweiten Fragebogen — ganz freiwillig, aber wir würden uns sehr freuen.", en:"There's a second questionnaire — completely optional, but we'd love for you to continue." },
+  alignInviteTitle: { de:"Weiter zu Fragebogen 2 · Raum", en:"Enter Questionnaire 2 · Space" },
   alignInviteDesc: { de:"Was bleibt, wenn Wasser, Erde, Feuer und Luft durch dich gegangen sind. Das ist der zweite Fragebogen — und der Ort, an dem deine Antworten später mit Human Design, Gene Keys & Numerologie zu deinem eigenen Bild zusammenfinden.", en:"What remains once water, earth, fire, and air have moved through you. This is the second questionnaire — and the place where your answers later meet Human Design, Gene Keys, and numerology in your own personal picture." },
   alignPassLabel: { de:"Dein Code für Fragebogen 2", en:"Your code for questionnaire 2" },
   alignPassHint: { de:"Verknüpft deine beiden Antwort-Sets bei dir lokal — sonst nichts. Behalte ihn, wenn du später weitermachen willst, oder gib ihn weiter, wenn du die Einladung reichst.", en:"This links your two sets of answers together on your end — nothing more. Keep it if you'd like to pick this up again later, or share it if you're passing the invite on to someone else." },
@@ -1618,6 +1639,51 @@ function downloadNotes(btn){
   if (btn) flashActive(btn);
 }
 document.getElementById('export-btn').addEventListener('click', function(){ downloadNotes(); });
+function buildShareText(){
+  var lines = [];
+  var name = state.fields && state.fields.ansprache;
+  lines.push((name ? name + ' — ' : '') + tr('footer'));
+  lines.push(new Date().toLocaleDateString(lang === 'en' ? 'en-GB' : 'de-DE'));
+  var seen = {};
+  var nodes = [].slice.call(document.querySelectorAll('[data-field]'));
+  nodes.forEach(function(el){
+    var key = el.getAttribute('data-field');
+    if (!key || seen[key]) return;
+    seen[key] = true;
+    var val = state.fields && state.fields[key];
+    if (!val) return;
+    var wrap = el.closest ? el.closest('.field') : null;
+    var lab = wrap ? wrap.querySelector('label') : null;
+    var label = lab ? lab.textContent.trim() : key;
+    lines.push('');
+    lines.push(label);
+    lines.push(String(val));
+  });
+  return lines.join('\n');
+}
+function shareToTelegram(btn){
+  var text = buildShareText();
+  var title = tr('footer');
+  manualSave();
+  function fallback(){
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).catch(function(){});
+    }
+    window.open('https://t.me/share/url?url=&text=' + encodeURIComponent(text), '_blank', 'noopener');
+    var c = document.getElementById('telegram-confirm');
+    if (c){ c.classList.add('visible'); setTimeout(function(){ c.classList.remove('visible'); }, 5000); }
+  }
+  if (navigator.share){
+    navigator.share({ title: title, text: text }).catch(function(err){
+      if (err && err.name === 'AbortError') return;
+      fallback();
+    });
+  } else {
+    fallback();
+  }
+  if (btn) flashActive(btn);
+}
+document.getElementById('telegram-btn').addEventListener('click', function(){ shareToTelegram(this); });
 function importNotes(ev){
   var f = ev.target.files[0];
   if (!f) return;
