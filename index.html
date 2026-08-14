@@ -162,11 +162,6 @@ h1.htitle{font-size:clamp(2.1rem,6vw + 1rem,3.6rem);line-height:1.14;font-weight
   background:hsl(var(--h),var(--as),var(--al));}
 .ptag{display:block;font-family:var(--f-label);font-weight:700;font-size:10.5px;letter-spacing:.13em;
   text-transform:uppercase;color:hsl(var(--h),var(--as),var(--al));margin-bottom:10px;}
-.water-plate::before{background:hsl(188,70%,58%);}
-.water-plate{border-color:hsla(188,60%,55%,.35);}
-.ptag.water-tag{color:hsl(188,78%,64%);}
-.mc-chip.water-chip{border-color:hsla(188,60%,55%,.5);color:hsl(188,55%,68%);}
-.mc-chip.water-chip.on{background:hsl(188,65%,50%);color:#05171c;border-color:transparent;}
 
 /* ---- voice ------------------------------------------------------------*/
 .voice{max-width:32rem;margin:6px 0 22px;padding:2px 0 2px 20px;border-left:2px solid hsl(var(--h),var(--as),var(--al));}
@@ -503,13 +498,6 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
       <p data-i18n="p0P2">Falls du Geburtsdaten teilst, aus denen später ein Chart oder eine Deutung entsteht (Human Design, Gene Keys, Numerologie, Astrologie), bekommst du dein eigenes Ergebnis zuerst zu sehen — bevor es irgendwo in eine Entscheidung über dich einfließt.</p></div>
     <div class="plate reveal"><span class="ptag" data-i18n="p0Tag3">iv &middot; Nichts ist Pflicht</span>
       <p data-i18n="p0P3">Jede Frage darf leer bleiben. Du kannst an jedem Tor aufhören und bist trotzdem vollständig willkommen. Und was du teilst, hilft uns, die Vision authentischer und präziser zu formen.</p></div>
-    <div class="plate water-plate reveal"><span class="ptag water-tag" data-i18n="p0Tag4">v &middot; Fülle, gemeinsam</span>
-      <p data-i18n="qMoneyFraming">Ein Ziel dahinter ist, gemeinsam auf finanzielle Fülle hinzuarbeiten, und die Erträge der Residency sollen weitere Kreationen finanzieren. Es geht darum, so viel Fülle über all unsere Projekte und diese wachsende Gemeinschaft aufzubauen, dass alle Wünsche erfüllt werden können. Die Grundlage dafür muss zuerst gelegt und gepflegt werden.</p>
-      <span class="hint" data-i18n="qMoneyHint">Das ist ein wichtiges gemeinsames Verständnis — deshalb bitten wir dich, bewusst zuzustimmen.</span>
-      <div class="fb-chips">
-        <button type="button" class="mc-chip water-chip" data-field="finanz_verstanden" data-value="Ja" data-i18n="chipMoneyAgree">Verstanden &amp; einverstanden</button>
-      </div></div>
-
     <details class="fb" data-node="portal0">
       <summary data-i18n="p0FbSummary">Notiz zu &bdquo;Vertrauen&ldquo;</summary>
       <div class="fb-body">
@@ -923,7 +911,6 @@ var I18N = {
   p0P2: { de:"Falls du Geburtsdaten teilst, aus denen später ein Chart oder eine Deutung entsteht (Human Design, Gene Keys, Numerologie, Astrologie), bekommst du dein eigenes Ergebnis zuerst zu sehen — bevor es irgendwo in eine Entscheidung über dich einfließt.", en:"If you share birth data that a chart or reading is later drawn from (Human Design, Gene Keys, numerology, astrology), you get to see your own result first — before it ever factors into a decision about you." },
   p0Tag3: { de:"iv · Nichts ist Pflicht", en:"iv · Nothing is required" },
   p0P3: { de:"Jede Frage darf leer bleiben. Du kannst an jedem Tor aufhören und bist trotzdem vollständig willkommen. Und was du teilst, hilft uns, die Vision authentischer und präziser zu formen.", en:"Every question can stay blank. You can stop at any gate and still be fully welcome. And whatever you share helps us shape the vision more authentically and precisely." },
-  p0Tag4: { de:"v · Fülle, gemeinsam", en:"v · Abundance, together" },
   p0FbSummary: { de:"Notiz zu „Vertrauen“", en:"Note on \"Trust\"" },
   p0PoleNeg: { de:"fühlt sich nicht sicher an", en:"doesn't feel safe" },
   p0PolePos: { de:"fühlt sich stimmig an", en:"feels right" },
@@ -1002,9 +989,6 @@ var I18N = {
   qSacredLabel: { de:"Was ist dir heilig, nicht verhandelbar?", en:"What is sacred to you, non-negotiable?" },
   qSacredHint: { de:"Ein Wert, eine Grenze, eine tägliche Praxis — was auch immer sich unantastbar anfühlt.", en:"A value, a boundary, a daily practice — whatever feels untouchable." },
   qValues2Label: { de:"Fühlst du dich mehr angezogen davon, etwas Größerem als dir selbst zu dienen, oder zuerst deiner eigenen Entfaltung — oder fühlt sich das für dich wie dasselbe an?", en:"Are you more drawn to serving something bigger than yourself, or to your own unfolding first — or does that feel like the same thing to you?" },
-  qMoneyFraming: { de:"Ein Ziel dahinter ist, gemeinsam auf finanzielle Fülle hinzuarbeiten, und die Erträge der Residency sollen weitere Kreationen finanzieren. Es geht darum, so viel Fülle über all unsere Projekte und diese wachsende Gemeinschaft aufzubauen, dass alle Wünsche erfüllt werden können. Die Grundlage dafür muss zuerst gelegt und gepflegt werden.", en:"Part of the intention here is building towards financial abundance together, and the residency's returns are meant to fund future creations. It's about building so much abundance across all of our projects and this growing community that everyone's desires can be met. The groundwork for that has to be established and cultivated first." },
-  qMoneyHint: { de:"Das ist ein wichtiges gemeinsames Verständnis — deshalb bitten wir dich, bewusst zuzustimmen.", en:"This is an important shared understanding — so we're asking you to consciously agree to it." },
-  chipMoneyAgree: { de:"Verstanden & einverstanden", en:"Understood & I agree" },
   p2FbSummary: { de:"Notiz zu „Vertiefen“", en:"Note on \"Going deeper\"" },
 
   gate2Intro: { de:"Danke fürs Vertiefen. Auch von hier aus geht es weiter, wie du magst.", en:"Thank you for going deeper. From here too, it continues however you like." },
