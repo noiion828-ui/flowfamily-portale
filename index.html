@@ -1445,6 +1445,47 @@ function restoreChips(){
     if (isOn) mc.classList.add('on');
   });
 }
+function addCustomChip(themeField, value){
+  value = value.trim();
+  if (!value) return;
+  var input = document.querySelector('.chip-other-input[data-field="' + themeField + '"]');
+  var group = input ? input.previousElementSibling : null;
+  if (!group || group.className.indexOf('fb-chips') === -1) return;
+  var already = [].slice.call(group.querySelectorAll('.mc-chip')).some(function(c){
+    return c.dataset.value.toLowerCase() === value.toLowerCase();
+  });
+  if (already) return;
+  var btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'mc-chip on custom-chip';
+  btn.dataset.field = 'schoepfer_bedingungen';
+  btn.dataset.value = value;
+  btn.textContent = value;
+  group.appendChild(btn);
+  var arr = (state.fields.schoepfer_bedingungen || '').split(',').filter(Boolean);
+  if (arr.indexOf(value) < 0) arr.push(value);
+  state.fields.schoepfer_bedingungen = arr.join(',');
+  var listKey = themeField + '_liste';
+  var list = (state.fields[listKey] || '').split(',').filter(Boolean);
+  if (list.indexOf(value) < 0) list.push(value);
+  state.fields[listKey] = list.join(',');
+  save(state);
+}
+function initCustomChipInputs(){
+  document.querySelectorAll('.chip-other-input').forEach(function(input){
+    var themeField = input.dataset.field;
+    var listKey = themeField + '_liste';
+    (state.fields[listKey] || '').split(',').filter(Boolean).forEach(function(v){ addCustomChip(themeField, v); });
+    input.addEventListener('keydown', function(e){
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      addCustomChip(themeField, input.value);
+      input.value = '';
+      state.fields[themeField] = '';
+      save(state);
+    });
+  });
+}
 /* ---------- availability calendar (Sep 2026 - Mar 2027, matching the extended residency window) ---------- */
 var AVAIL_MONTHS = [
   { y: 2026, m: 8 }, { y: 2026, m: 9 }, { y: 2026, m: 10 }, { y: 2026, m: 11 },
@@ -1779,6 +1820,7 @@ if (alignmentLink && window.claude){
 restoreFields();
 restoreFeedback();
 restoreChips();
+initCustomChipInputs();
 AvailCal.restore();
 restoreOptionalVisibility();
 initQuestionFeedback();
