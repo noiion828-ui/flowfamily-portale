@@ -536,7 +536,7 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
         <input type="range" min="1" max="7" step="1" value="4" class="falsify unset" data-field="body_aktivierung" data-i18n-aria="fbUnsetAria" aria-label="Noch nicht gesetzt">
         <span class="fb-val" data-unset="1">&ndash;</span>
       </div></div>
-    <div class="field reveal"><label data-i18n="qBodyRegLabel">Was hilft dir am schnellsten runter zu kommen?</label>
+    <div class="field reveal"><label data-i18n="qBodyRegLabel">Was hilft dir am schnellsten runterzukommen?</label>
       <span class="hint" data-i18n="bmsMultiHint">Mehrfachauswahl möglich.</span>
       <div class="fb-chips" data-multi="1">
         <button type="button" class="mc-chip" data-field="body_regulation" data-value="Bewegung" data-i18n="chipMovement">Bewegung</button>
@@ -704,7 +704,7 @@ var I18N = {
   bmsCollPoleLow: { de:"Gr\u00f6\u00dferem dienen", en:"something bigger than me" },
   bmsCollPoleHigh: { de:"eigene Entfaltung", en:"my own unfolding" },
   qBodyActLabel: { de:"Wie aktiviert f\u00fchlst du dich gerade?", en:"How activated do you feel right now?" },
-  qBodyRegLabel: { de:"Was hilft dir am schnellsten runter zu kommen?", en:"What helps you settle back down the fastest?" },
+  qBodyRegLabel: { de:"Was hilft dir am schnellsten runterzukommen?", en:"What helps you settle back down the fastest?" },
   qBodyRhythmLabel: { de:"Wie tickt deine innere Uhr?", en:"How does your inner clock tick?" },
   qMindDecideLabel: { de:"Wie triffst du Entscheidungen, meistens?", en:"How do you usually make decisions?" },
   qMindStructLabel: { de:"Was zieht dich mehr?", en:"What pulls you more?" },
@@ -1490,7 +1490,13 @@ function startThree(THREE, mount, opts){
   scene.background = null;
   var camera = new THREE.PerspectiveCamera(42, w / h, 0.1, 100);
   camera.position.z = 4.6;
-  var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, premultipliedAlpha: false });
+  var isCoarsePointer = window.matchMedia && window.matchMedia('(pointer:coarse)').matches;
+  var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !isCoarsePointer, premultipliedAlpha: false });
+  var ctxAttrs = renderer.getContext().getContextAttributes();
+  if (!ctxAttrs || ctxAttrs.alpha === false) {
+    renderer.dispose();
+    throw new Error('webgl alpha not granted');
+  }
   renderer.setClearColor(0x000000, 0);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.setSize(w, h);
