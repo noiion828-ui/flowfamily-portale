@@ -251,6 +251,9 @@ input[type=range].falsify::-moz-range-thumb{width:14px;height:14px;border:0;bord
 input[type=range].falsify.unset::-webkit-slider-thumb{opacity:0;}
 input[type=range].falsify.unset::-moz-range-thumb{opacity:0;}
 .fb-chips{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 8px;}
+.chip-theme{display:block;font-family:var(--f-label);font-weight:700;font-size:9.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink3);margin:14px 0 2px;}
+.chip-theme:first-of-type{margin-top:6px;}
 .fb-chip,.mc-chip{font-family:var(--f-label);font-weight:600;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
   padding:7px 13px;border-radius:var(--r-chip);border:1px solid var(--hair);background:transparent;color:var(--ink3);cursor:pointer;}
 .fb-chip.on,.mc-chip.on{background:hsl(var(--h),var(--as),var(--al));color:var(--bg);border-color:transparent;font-weight:700;}
@@ -548,9 +551,42 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
       <textarea class="fieldbox" data-field="alltag_beitrag_andere" rows="1" data-i18n-ph="chipContribOtherPh" placeholder="Etwas anderes? …" style="margin-top:8px;"></textarea></div>
     <div class="field reveal"><label for="q-contrib-energie" data-i18n="qContribEnergieLabel">Was davon gibt dir Energie, und was zieht sie dir?</label>
       <textarea class="fieldbox" id="q-contrib-energie" data-field="alltag_beitrag_energie" rows="2" placeholder="…"></textarea></div>
-    <div class="field reveal"><label for="q-physical-needs" data-i18n="qPhysicalNeedsLabel">Was brauchst du körperlich, um an deine beste Schöpfer:in-Version heranzukommen?</label>
-      <span class="hint" data-i18n="qPhysicalNeedsHint">Denk an Unterkunft, Zugang zu Wasser (z. B. ein Pool), Nähe zur Natur, ein wärmeres oder kühleres Klima, Luxus oder eher bodenständig — was auch immer dir dazu einfällt.</span>
-      <textarea class="fieldbox" id="q-physical-needs" data-field="schoepfer_beduerfnisse" rows="2" placeholder="…"></textarea></div>
+    <div class="field reveal"><label data-i18n="qPhysicalNeedsLabel">Welche Bedingungen wünschst du dir, um am besten an deine Schöpfer:in-Version heranzukommen?</label>
+      <span class="hint" data-i18n="qPhysicalNeedsHint">Wähl so viele, wie dich ansprechen — auch wenn sie sich zu widersprechen scheinen. Die meisten Menschen brauchen einen Mix: Stille UND Trubel, Wärme UND klare Luft, je nach Tag oder Projekt. Wir sammeln dein ganzes Werkzeug, nicht einen Typ.</span>
+
+      <span class="chip-theme" data-i18n="condThemeSpace">Unterkunft &amp; Raum</span>
+      <div class="fb-chips" data-multi="1">
+        <button type="button" class="mc-chip" data-field="schoepfer_bedingungen" data-value="Eigenes Zimmer" data-i18n="condPrivateRoom">Eigenes Zimmer</button>
+        <button type="button" class="mc-chip" data-field="schoepfer_bedingungen" data-value="Gemeinschaftlich" data-i18n="condCommunity">Gemeinschaftlich</button>
+        <button type="button" class="mc-chip" data-field="schoepfer_bedingungen" data-value="Tiny Home / Cabin" data-i18n="condTinyHome">Tiny Home / Cabin</button>
+        <button type="button" class="mc-chip" data-field="schoepfer_bedingungen" data-value="Weiter Raum" data-i18n="condOpenSpace">Weiter Raum</button>
+      </div>
+
+      <span class="chip-theme" data-i18n="condThemeClimate">Klima</span>
+      <div class="fb-chips" data-multi="1">
+        <button type="button" class="mc-chip" data-field="schoepfer_bedingungen" data-value="Wärme & Sonne" data-i18n="condWarmth">Wärme &amp; Sonne</button>
+        <button type="button" class="mc-chip" data-field="schoepfer_bedingungen" data-value="Kühl & klar" data-i18n="condCool">Kühl &amp; klar</button>
+        <button type="button" class="mc-chip" data-field="schoepfer_bedingungen" data-value="Meeresluft" data-i18n="condCoastal">Meeresluft</button>
+        <button type="button" class="mc-chip" data-field="schoepfer_bedingungen" data-value="Bergluft" data-i18n="condMountain">Bergluft</button>
+      </div>
+
+      <span class="chip-theme" data-i18n="condThemeWaterNature">Wasser &amp; Natur</span>
+      <div class="fb-chips" data-multi="1">
+        <button type="button" class="mc-chip" data-field="schoepfer_bedingungen" data-value="Pool" data-i18n="condPool">Pool</button>
+        <button type="button" class="mc-chip" data-field="schoepfer_bedingungen" data-value="Offenes Wasser" data-i18n="condOpenWater">Offenes Wasser</button>
+        <button type="button" class="mc-chip" data-field="schoepfer_bedingungen" data-value="Wald" data-i18n="condForest">Wald</button>
+        <button type="button" class="mc-chip" data-field="schoepfer_bedingungen" data-value="Garten" data-i18n="condGarden">Garten</button>
+      </div>
+
+      <span class="chip-theme" data-i18n="condThemeRhythm">Rhythmus &amp; Energie</span>
+      <div class="fb-chips" data-multi="1">
+        <button type="button" class="mc-chip" data-field="schoepfer_bedingungen" data-value="Stille & Rückzug" data-i18n="condSolitude">Stille &amp; Rückzug</button>
+        <button type="button" class="mc-chip" data-field="schoepfer_bedingungen" data-value="Sozialer Trubel" data-i18n="condSocial">Sozialer Trubel</button>
+        <button type="button" class="mc-chip" data-field="schoepfer_bedingungen" data-value="Komfort & Luxus" data-i18n="condLuxury">Komfort &amp; Luxus</button>
+        <button type="button" class="mc-chip" data-field="schoepfer_bedingungen" data-value="Einfach, geerdet" data-i18n="condSimple">Einfach, geerdet</button>
+      </div>
+
+      <textarea class="fieldbox" data-field="schoepfer_bedingungen_andere" rows="1" data-i18n-ph="condOtherPh" placeholder="Etwas anderes? …" style="margin-top:10px;"></textarea></div>
 
     <div class="field reveal"><label for="q-capacity" data-i18n="qCapacityLabel">Wie fühlt sich für dich ein Rhythmus an, in dem du geben kannst, ohne dich zu verlieren?</label>
       <span class="hint" data-i18n="qCapacityHint">In Wellen, an einem festen Tag, nur wenn du gerufen wirst, oder noch unklar — alles gültig. Und, falls hilfreich: Woran merkst du bei dir selbst, dass du an deine Grenze kommst?</span>
@@ -984,8 +1020,29 @@ var I18N = {
   qDriveLabel: { de:"Hast du einen Führerschein?", en:"Do you have a driving licence?" },
   chipYesSimple: { de:"Ja", en:"Yes" },
   chipNoSimple: { de:"Nein", en:"No" },
-  qPhysicalNeedsLabel: { de:"Was brauchst du körperlich, um an deine beste Schöpfer:in-Version heranzukommen?", en:"What do you physically need to access your best creator/creatrix self?" },
-  qPhysicalNeedsHint: { de:"Denk an Unterkunft, Zugang zu Wasser (z. B. ein Pool), Nähe zur Natur, ein wärmeres oder kühleres Klima, Luxus oder eher bodenständig — was auch immer dir dazu einfällt.", en:"Think accommodation, access to water (a pool, maybe), closeness to nature, a warmer or cooler climate, luxury or something more down-to-earth — whatever comes to mind." },
+  qPhysicalNeedsLabel: { de:"Welche Bedingungen wünschst du dir, um am besten an deine Schöpfer:in-Version heranzukommen?", en:"What conditions do you wish for, to best access your creator/creatrix self?" },
+  qPhysicalNeedsHint: { de:"Wähl so viele, wie dich ansprechen — auch wenn sie sich zu widersprechen scheinen. Die meisten Menschen brauchen einen Mix: Stille UND Trubel, Wärme UND klare Luft, je nach Tag oder Projekt. Wir sammeln dein ganzes Werkzeug, nicht einen Typ.", en:"Pick as many as call to you — even ones that seem to pull in different directions. Most people need a mix: quiet AND buzz, warmth AND crisp air, depending on the day or the project. We're mapping your full toolkit, not one type." },
+  condThemeSpace: { de:"Unterkunft & Raum", en:"Accommodation & space" },
+  condPrivateRoom: { de:"Eigenes Zimmer", en:"Private room" },
+  condCommunity: { de:"Gemeinschaftlich", en:"Community living" },
+  condTinyHome: { de:"Tiny Home / Cabin", en:"Tiny home / cabin" },
+  condOpenSpace: { de:"Weiter Raum", en:"Wide open space" },
+  condThemeClimate: { de:"Klima", en:"Climate" },
+  condWarmth: { de:"Wärme & Sonne", en:"Warmth & sun" },
+  condCool: { de:"Kühl & klar", en:"Cool & crisp" },
+  condCoastal: { de:"Meeresluft", en:"Coastal air" },
+  condMountain: { de:"Bergluft", en:"Mountain air" },
+  condThemeWaterNature: { de:"Wasser & Natur", en:"Water & nature" },
+  condPool: { de:"Pool", en:"A pool" },
+  condOpenWater: { de:"Offenes Wasser", en:"Open water" },
+  condForest: { de:"Wald", en:"Forest / woodland" },
+  condGarden: { de:"Garten", en:"A garden" },
+  condThemeRhythm: { de:"Rhythmus & Energie", en:"Rhythm & energy" },
+  condSolitude: { de:"Stille & Rückzug", en:"Quiet & solitude" },
+  condSocial: { de:"Sozialer Trubel", en:"Social buzz" },
+  condLuxury: { de:"Komfort & Luxus", en:"Comfort & luxury" },
+  condSimple: { de:"Einfach, geerdet", en:"Simple, grounded" },
+  condOtherPh: { de:"Etwas anderes? …", en:"Something else? …" },
   qPurposeLabel: { de:"Ganz ungefiltert, ohne es \"richtig\" machen zu müssen: warum bist du hier auf diesem Planeten? Schreib einfach, was kommt.", en:"Right now, unfiltered, no need to get it \"right\": why are you here on this planet? Just write whatever comes." },
   qPurposeHint: { de:"Keine Analyse, keine Formulierung, die \"stimmen\" muss. Nur eine Ahnung.", en:"No analysis, no phrasing that has to be \"right.\" Just a hunch." },
   p3FbSummary: { de:"Notiz zu „Erforschen“", en:"Note on \"Exploring\"" },
