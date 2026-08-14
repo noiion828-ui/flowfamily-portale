@@ -8,6 +8,10 @@
     var t = s._theme || ((window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark');
     document.documentElement.setAttribute('data-theme', t);
   }catch(e){ document.documentElement.setAttribute('data-theme','dark'); }
+  try{
+    var a = JSON.parse(localStorage.getItem('flowfamily_alignment_v1') || '{}');
+    if (a._unlocked) document.documentElement.setAttribute('data-unlocked', '1');
+  }catch(e){}
 })();
 </script>
 <style>
@@ -122,6 +126,28 @@ h1.htitle{font-size:clamp(2.1rem,6vw + 1rem,3.6rem);line-height:1.14;font-weight
 .hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;justify-content:center;}
 .hero-meta span{font-family:var(--f-label);font-weight:600;font-size:11px;letter-spacing:.09em;text-transform:uppercase;
   color:var(--ink3);border:1px solid var(--hair);border-radius:var(--r-chip);padding:6px 12px;}
+.elem-converge{position:relative;width:100%;max-width:200px;height:88px;margin:22px auto 2px;}
+.elem-converge svg{width:100%;height:100%;overflow:visible;display:block;}
+.ec-piece{fill:currentColor;fill-opacity:.16;stroke:currentColor;stroke-opacity:.85;stroke-width:1.4;stroke-linejoin:round;}
+.ec-water{color:hsl(188,var(--as),var(--al));}
+.ec-earth{color:hsl(38,var(--as),var(--al));}
+.ec-fire{color:hsl(12,var(--as),var(--al));}
+.ec-air{color:hsl(252,var(--as),var(--al));}
+.ec-glow{fill:url(#ecGlowGrad);opacity:.22;}
+.ec-space{fill:hsl(308,78%,64%);opacity:.9;}
+@media (prefers-reduced-motion:no-preference){
+  .ec-piece{animation:ec-arrive .85s cubic-bezier(.22,1,.36,1) both;}
+  .ec-water{animation-delay:.05s;}
+  .ec-earth{animation-delay:.18s;}
+  .ec-fire{animation-delay:.31s;}
+  .ec-air{animation-delay:.44s;}
+  .ec-space{r:0;opacity:0;animation:ec-bloom .6s ease-out .62s both;}
+  .ec-glow{opacity:0;animation:ec-glow-in .7s ease-out .62s both,ec-breathe 4.8s ease-in-out 1.3s infinite;}
+  @keyframes ec-arrive{ from{transform:translateY(-24px) scale(.5);opacity:0;} to{transform:translateY(0) scale(1);opacity:1;} }
+  @keyframes ec-bloom{ from{r:0;opacity:0;} to{r:6;opacity:.9;} }
+  @keyframes ec-glow-in{ from{opacity:0;} to{opacity:.22;} }
+  @keyframes ec-breathe{ 0%,100%{opacity:.16;} 50%{opacity:.34;} }
+}
 .begin-btn{margin-top:28px;display:inline-flex;align-items:center;gap:.6rem;
   font-family:var(--f-label);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;
   border:none;background:hsl(var(--h),var(--as),var(--al));color:var(--bg);
@@ -198,46 +224,8 @@ input.fieldbox{min-height:auto;}
 .doorway .dt{font-family:var(--f-display);font-weight:600;font-size:1.02rem;color:var(--ink);}
 .doorway .dd{font-size:.82rem;line-height:1.5;color:var(--ink2);}
 
-/* ---- flip cards (rounded, playful, text safely contained) ----------------*/
+/* ---- section sub-labels (Body/Mind/Soul etc.) -----------------------------*/
 .cards-intro{font-family:var(--f-display);font-style:italic;font-size:1.05rem;color:var(--ink2);margin-bottom:18px;text-align:center;}
-.flip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-@media (max-width:600px){ .flip-grid{grid-template-columns:1fr 1fr;} }
-@media (max-width:400px){ .flip-grid{grid-template-columns:1fr;} }
-.flip-card{perspective:1000px;height:12.5rem;cursor:pointer;}
-.flip-card-inner{position:relative;width:100%;height:100%;transition:transform .65s cubic-bezier(.3,1.2,.3,1);transform-style:preserve-3d;}
-.flip-card:hover .flip-card-inner{transform:rotateZ(0deg) scale(1.02);}
-.flip-card.is-flipped .flip-card-inner{transform:rotateY(180deg);}
-@media (prefers-reduced-motion:reduce){ .flip-card-inner{transition:none;} }
-.flip-face{position:absolute;inset:0;backface-visibility:hidden;border:1px solid var(--panel-brd);
-  border-radius:var(--r-card);padding:16px;display:flex;align-items:center;background:var(--panel);
-  overflow-y:auto;box-shadow:var(--shadow);text-align:center;}
-.flip-face p{font-size:.86rem;line-height:1.48;margin:0 auto;}
-.flip-front p{font-family:var(--f-display);font-weight:600;font-style:italic;font-size:1rem;color:var(--ink);}
-.flip-back{transform:rotateY(180deg);background:hsla(var(--h),var(--as),var(--al),.12);border-color:hsla(var(--h),var(--as),var(--al),.45);}
-.flip-back p{color:var(--ink2);font-size:.82rem;}
-
-/* ---- lens pairing (Zwischenraum) -----------------------------------------*/
-.lens-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-bottom:22px;}
-@media (max-width:620px){ .lens-grid{grid-template-columns:1fr;} }
-.lens-col{border-top:1px solid var(--hair);padding-top:16px;}
-.lens-col .lens-label{display:block;font-family:var(--f-label);font-weight:700;font-size:10.5px;
-  letter-spacing:.13em;text-transform:uppercase;color:hsl(var(--h),var(--as),var(--al));margin-bottom:12px;}
-.lens-col p{font-size:.92rem;color:var(--ink2);margin-bottom:11px;}
-.lens-col .signoff{font-family:var(--f-label);font-weight:700;font-size:10.5px;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink3);margin-top:12px;}
-.netfig{margin:6px 0 26px;}
-.netfig canvas{width:100%;height:auto;display:block;border:1px solid var(--panel-brd);
-  border-radius:var(--r-card);background:var(--panel);}
-.netfig figcaption{margin-top:8px;font-family:var(--f-label);font-weight:600;font-size:10px;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--ink3);text-align:center;}
-
-.contradiction-block{margin-top:26px;border-left:2px solid hsl(var(--h),var(--as),var(--al));padding-left:18px;}
-.contradiction-title{font-family:var(--f-display);font-weight:600;font-style:italic;font-size:1.15rem;color:var(--ink);margin-bottom:10px;}
-.contradiction-block p{margin-bottom:10px;font-size:.92rem;}
-.placeholder-note{border:1px dashed var(--panel-brd);border-radius:var(--r-pool);padding:14px 16px;margin-top:8px;}
-.placeholder-note .fill-label{display:block;font-family:var(--f-label);font-weight:700;font-size:9.5px;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;}
-.placeholder-note p{font-style:italic;color:var(--ink3);font-size:.85rem;margin:0;}
 .continue-links{margin-top:28px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
 .continue-links .begin-btn{margin-top:0;}
 
@@ -290,13 +278,33 @@ input[type=range].falsify.unset::-moz-range-thumb{opacity:0;}
 .fb-note{width:100%;background:var(--chip-bg);border:1px solid var(--panel-brd);border-radius:var(--r-pool);
   color:var(--ink);padding:11px 14px;font:.88rem var(--f-body);resize:vertical;min-height:44px;margin-top:10px;}
 
+/* ---- dictation hint (native OS shortcut, replaces the old in-page mic button) ------------*/
+.dictate-hint{opacity:.75;}
+
+/* ---- per-question feedback (auto-injected under every .field) ------------*/
+.qfb{margin-top:9px;}
+.qfb-toggle{appearance:none;cursor:pointer;background:none;border:none;padding:0;
+  font-family:var(--f-label);font-weight:600;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--ink3);display:inline-flex;align-items:center;gap:6px;}
+.qfb-toggle:hover,.qfb-toggle.open{color:hsl(var(--h),var(--as),var(--al));}
+.qfb-toggle::before{content:"+";flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;
+  width:14px;height:14px;border:1px solid currentColor;border-radius:50%;font-weight:400;line-height:1;}
+.qfb-toggle.open::before{content:"\2013";}
+.qfb-body{margin-top:9px;padding:12px 14px;border:1px dashed var(--panel-brd);border-radius:var(--r-pool);}
+.qfb-chips{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 9px;}
+.qfb-chip{font-family:var(--f-label);font-weight:600;font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;
+  padding:6px 11px;border-radius:var(--r-chip);border:1px solid var(--hair);background:transparent;color:var(--ink3);cursor:pointer;}
+.qfb-chip.on{background:hsl(var(--h),var(--as),var(--al));color:var(--bg);border-color:transparent;font-weight:700;}
+.qfb-note{width:100%;background:var(--chip-bg);border:1px solid var(--panel-brd);border-radius:var(--r-pool);
+  color:var(--ink);padding:9px 12px;font:.82rem var(--f-body);resize:vertical;min-height:38px;}
+
 /* ---- savebar -----------------------------------------------------------*/
 .savebar{position:fixed;right:14px;bottom:14px;z-index:60;display:flex;gap:6px;align-items:center;}
 .savebar button,.savebar label{font-family:var(--f-label);font-weight:700;font-size:10.5px;letter-spacing:.06em;
   text-transform:uppercase;cursor:pointer;border:1px solid var(--panel-brd);background:var(--panel);
   -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:var(--ink2);padding:10px 14px;
   border-radius:var(--r-chip);line-height:1;}
-.savebar button.primary{background:hsl(var(--h),var(--as),var(--al));color:var(--bg);border-color:transparent;}
+.savebar button.primary{background:hsl(var(--h),var(--as),var(--al));color:var(--bg);border-color:transparent;transition:background .25s,color .25s,border-color .25s;}
 .savebar .flash{font-family:var(--f-label);font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;
   color:hsl(var(--h),var(--as),var(--al));opacity:0;transition:opacity .3s;}
 .savebar .flash.on{opacity:1;}
@@ -320,7 +328,32 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
 /* ---- optional sections: hidden until a gate reveals them ---------------*/
 .optional{display:none;}
 .optional.active{display:block;}
+
+/* ---- lock screen (soft gate, not real security) ---------------------------*/
+.lock-screen{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;
+  padding:24px;background:var(--bg);}
+.lock-card{width:100%;max-width:24rem;text-align:center;border:1px solid var(--panel-brd);border-radius:var(--r-card);
+  background:var(--panel);box-shadow:var(--shadow);padding:36px 28px;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);}
+.lock-card .glyph-circle{margin:0 auto 20px;}
+.lock-title{font-family:var(--f-display);font-weight:600;font-style:italic;font-size:1.3rem;color:var(--ink);margin-bottom:10px;}
+.lock-hint{font-size:.88rem;line-height:1.6;color:var(--ink2);margin-bottom:22px;}
+.lock-card .fieldbox{text-align:center;letter-spacing:.04em;margin-bottom:14px;min-height:auto;}
+.lock-error{font-family:var(--f-label);font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  color:hsl(6,70%,55%);margin-top:12px;display:none;}
+.lock-error.on{display:block;}
+:root[data-unlocked="1"] .lock-screen{display:none;}
 </style>
+
+<div class="lock-screen" id="lockScreen">
+  <div class="lock-card">
+    <div class="glyph-circle"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+    <p class="lock-title" data-i18n="lockTitle">Bevor es weitergeht</p>
+    <p class="lock-hint" data-i18n="lockHint">Dieses Portal ist nur für Menschen, die den ersten Fragebogen abgeschlossen haben. Das Passwort hast du dort am Ende bekommen.</p>
+    <input class="fieldbox" id="lockInput" type="password" autocomplete="off" data-i18n-ph="lockPh" placeholder="Passwort" aria-label="Passwort">
+    <button class="begin-btn" id="lockBtn" type="button" data-i18n="lockBtn" style="margin-top:0;">Öffnen</button>
+    <p class="lock-error" id="lockError" data-i18n="lockError">Das war's noch nicht — versuch's nochmal.</p>
+  </div>
+</div>
 
 <canvas id="field" aria-hidden="true"></canvas>
 <div id="veil" aria-hidden="true"></div>
@@ -347,11 +380,27 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
 
 <header class="hero" id="hero">
   <div class="eyebrow" data-i18n="eyebrow">Flowfamily &middot; Alignment-Fragebogen</div>
-  <h1 class="htitle" data-i18n-html="htitle">Du bist angekommen.<br>Jetzt zeigen wir dir, wie wir denken.</h1>
-  <p class="hero-sub" data-i18n="heroSub1">Das hier ist die Fortsetzung des ersten Fragebogens — unsere Kosmologie, in zwei gleich gewichteten Sprachen. Kein Test, keine Zulassungsprüfung.</p>
-  <p class="hero-sub" data-i18n="heroSub2">Du musst nichts davon teilen, um dazuzugehören. Am Ende darfst du dir Notizen machen und sagen, wo du zustimmst und wo nicht.</p>
+  <h1 class="htitle" data-i18n-html="htitle">Willkommen zurück.<br>Noch ein paar Fragen, damit wir dich etwas tiefer kennenlernen.</h1>
   <p class="hero-sub" data-i18n="heroSub3">Wasser, Erde, Feuer, Luft — und Raum als das Fünfte, das übrig bleibt, wenn die vier durch dich gegangen sind. Was du hier lässt, findet später mit Human Design, Gene Keys und Numerologie zu deinem eigenen Bild zusammen — das siehst du zuerst, bevor irgendetwas davon woanders hinfließt.</p>
-  <div class="hero-meta"><span data-i18n="metaServer">Kein Server</span><span data-i18n="metaSkip">Jede Frage überspringbar</span><span data-i18n="metaLocal">Speichert lokal</span></div>
+  <p class="hero-sub" data-i18n="heroSub1">Das hier ist die Fortsetzung des ersten Fragebogens — ein paar Fragen mehr zu dir.</p>
+  <p class="hero-sub" data-i18n="heroSub2">Am Ende darfst du dir Notizen machen und sagen, wo du zustimmst und wo nicht.</p>
+  <div class="hero-meta"><span data-i18n="metaServer">Kein Server</span><span data-i18n="metaSkip">Jede Frage überspringbar</span><span data-i18n="metaLocal">Speichert lokal</span><span data-i18n="metaTime">Ca. 5–8 Min.</span></div>
+  <div class="elem-converge" aria-hidden="true" role="presentation">
+    <svg viewBox="0 0 210 96" class="ec-svg">
+      <defs>
+        <radialGradient id="ecGlowGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="hsl(308,78%,64%)" stop-opacity=".55"/>
+          <stop offset="100%" stop-color="hsl(308,78%,64%)" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <g transform="translate(105,50) rotate(0)"><path class="ec-piece ec-water" d="M0,-34 C11,-29 11,-9 0,-4 C-11,-9 -11,-29 0,-34 Z"/></g>
+      <g transform="translate(105,50) rotate(90)"><path class="ec-piece ec-earth" d="M0,-34 C11,-29 11,-9 0,-4 C-11,-9 -11,-29 0,-34 Z"/></g>
+      <g transform="translate(105,50) rotate(180)"><path class="ec-piece ec-fire" d="M0,-34 C11,-29 11,-9 0,-4 C-11,-9 -11,-29 0,-34 Z"/></g>
+      <g transform="translate(105,50) rotate(270)"><path class="ec-piece ec-air" d="M0,-34 C11,-29 11,-9 0,-4 C-11,-9 -11,-29 0,-34 Z"/></g>
+      <circle class="ec-glow" cx="105" cy="50" r="22"/>
+      <circle class="ec-space" cx="105" cy="50" r="6"/>
+    </svg>
+  </div>
   <button class="begin-btn" id="begin-btn" type="button" data-i18n="beginBtn">Weiter &rarr;</button>
 </header>
 
@@ -362,86 +411,28 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
     <div class="glyph-circle reveal" style="margin:0 auto 20px;border-color:hsla(308,70%,60%,.55);background:radial-gradient(circle at 35% 30%,hsla(308,70%,60%,.16),transparent 70%);"><svg viewBox="0 0 24 24" style="stroke:hsl(308,78%,64%);"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="1.6" fill="hsl(308,78%,64%)"/></svg></div>
     <div class="shead reveal" style="text-align:center;">
       <span class="sec-label" data-i18n="zwLabel">Raum &middot; Portal 4</span>
-      <h2 class="stitle" data-i18n="zwTitle">Wie wir die Welt sehen — und wie du sie sehen darfst.</h2>
-      <p class="lead" style="margin-inline:auto;" data-i18n="zwLead">Das hier ist unsere Kosmologie, nicht deine Zulassungsprüfung. Du musst nichts davon teilen, um dazuzugehören — deshalb stehen zwei Sprachen nebeneinander, gleich gewichtet.</p>
-    </div>
-
-    <figure class="netfig reveal">
-      <canvas id="netcanvas" width="640" height="150" role="img" data-i18n-aria="netAria" aria-label="Zwei verbundene Stimmen: Picassions Sprache und die weltliche Übersetzung"></canvas>
-      <figcaption data-i18n="netCaption">Zwei Stimmen, eine Bewegung — Erkennen &rarr; Umkehrung &rarr; Aktivierung</figcaption>
-    </figure>
-
-    <div class="lens-grid reveal">
-      <div class="lens-col">
-        <span class="lens-label" data-i18n="lensLabel1">In Picassions Sprache</span>
-        <p data-i18n="lens1P1">Ich merke es zuerst am Zwang: wenn sich etwas wie Arbeit anfühlt, wie Anstrengung, wie ein Kompromiss, bin ich in der Sprache der Trennung gelandet — im Glauben, dass etwas fehlt und ich es erst herstellen muss.</p>
-        <p data-i18n="lens1P2">Aber genau das Erzwingen zeigt mir, wo ich mich selbst verloren habe. Die Situationen, in denen ich immer wieder leide, sind fast immer dieselbe — nur mit anderen Gesichtern, anderen Spielpartnern. Behandle ich sie als Gegner, verliere ich Kraft im Kampf. Sehe ich sie als Spiegel, finde ich das Geschenk, das im Schatten wartet, statt es mir mühsam zu erarbeiten.</p>
-        <p data-i18n="lens1P3">Surrender ist für mich kein Aufgeben, sondern ein Hinlauschen: der Moment, in dem der Schmerz groß genug wird, dass ich loslasse — und sich wie von selbst ein leichterer Weg zeigt, der die ganze Zeit schon da war. Ich glaube: alles existiert bereits. Es braucht keine Erschaffung durch Kraft, sondern Bewusstseinsarchitektur und Praktizierende, die bereit sind zu empfangen, statt zu erzwingen.</p>
-        <p data-i18n="lens1P4">Deshalb verstehe ich uns nicht als Regelsystem, sondern als ein Feld, das sich dahin bewegt, wo diese Art von Präsenz gerade lebendig ist. Und deshalb bin ich überzeugt: wir sind nicht die, die etwas erschaffen müssen — wir sind die Schnittstelle, durch die es sich zeigt, wenn wir aufhören, im Weg zu stehen.</p>
-        <p class="signoff">Picassion</p>
-      </div>
-      <div class="lens-col">
-        <span class="lens-label" data-i18n="lensLabel2">In anderen Worten</span>
-        <p data-i18n="lens2P1">Der erste Hinweis ist oft körperlich: wenn eine Aufgabe sich dauerhaft wie Zwang anfühlt, ist das Nervensystem meist in erhöhter Alarmbereitschaft — nicht weil die Aufgabe falsch ist, sondern weil der innere Zustand, aus dem heraus sie erledigt wird, angespannt ist.</p>
-        <p data-i18n="lens2P2">Genau dieses Signal ist keine Störung, sondern Information: es zeigt einen Punkt, an dem Kontrolle versucht wird, wo eigentlich Regulation gebraucht wird. Wiederkehrende schwierige Situationen mit wechselnden Menschen sind oft dasselbe Muster in neuer Verkleidung — und das Muster zu erkennen, statt es jedes Mal neu zu bekämpfen, spart genau die Energie, die vorher im Kampf verloren ging.</p>
-        <p data-i18n="lens2P3">Der Wechsel geschieht nicht durch mehr Anstrengung, sondern durch das Gegenteil: das Nervensystem lernt Sicherheit meist dann, wenn Druck kurz aufhört — und in diesem Moment wird oft ein Weg sichtbar, der vorher blockiert war, weil verengter, gestresster Fokus Optionen ausblendet.</p>
-        <p data-i18n="lens2P4">Ein Team, das diesen Zustand kennt und ernst nimmt, statt ihn zu übergehen, reagiert nachweislich schneller auf das, was gerade wirklich gebraucht wird — solange klar bleibt, wer wofür verantwortlich ist.</p>
-      </div>
-    </div>
-
-    <p class="cards-intro reveal" data-i18n="cardsIntro">Kein Test, keine Pflicht — ein paar Linsen zum Anschauen. Zum Umdrehen antippen.</p>
-    <div class="flip-grid reveal">
-      <div class="flip-card" tabindex="0" role="button" data-i18n-aria="flipAria" aria-label="Karte umdrehen"><div class="flip-card-inner">
-        <div class="flip-face flip-front"><p data-i18n="flip1F">Resonanz statt Kontrolle</p></div>
-        <div class="flip-face flip-back"><p data-i18n="flip1B">Wir verstehen uns eher als Feld, das sich dahin bewegt, wo Energie da ist, als als System mit festen Vorgaben. Das heißt nicht chaotisch — Richtung entsteht oft, statt erzwungen zu werden.</p></div>
-      </div></div>
-      <div class="flip-card" tabindex="0" role="button" data-i18n-aria="flipAria" aria-label="Karte umdrehen"><div class="flip-card-inner">
-        <div class="flip-face flip-front"><p data-i18n="flip2F">Schatten als Spiegel</p></div>
-        <div class="flip-face flip-back"><p data-i18n="flip2B">Wiederkehrende schwierige Situationen sind für uns eher derselbe Lernstoff mit wechselnden Gesichtern als neue, unabhängige Probleme.</p></div>
-      </div></div>
-      <div class="flip-card" tabindex="0" role="button" data-i18n-aria="flipAria" aria-label="Karte umdrehen"><div class="flip-card-inner">
-        <div class="flip-face flip-front"><p data-i18n="flip3F">Nervensystem &amp; Fenster der Toleranz</p></div>
-        <div class="flip-face flip-back"><p data-i18n="flip3B">Merkst du bei dir, wann du eher aus Überreizung oder Rückzug reagierst als aus Ruhe? Das zu kennen ist für uns Selbstfürsorge — kein Maßstab dafür, wer "bereit" ist.</p></div>
-      </div></div>
-      <div class="flip-card" tabindex="0" role="button" data-i18n-aria="flipAria" aria-label="Karte umdrehen"><div class="flip-card-inner">
-        <div class="flip-face flip-front"><p data-i18n="flip4F">Rhythmus statt Zwang</p></div>
-        <div class="flip-face flip-back"><p data-i18n="flip4B">Unterschiedliche Menschen brauchen unterschiedliches Tempo. Beides kann gleichzeitig wahr sein: etwas ernst nehmen und sich nicht daran verausgaben.</p></div>
-      </div></div>
-      <div class="flip-card" tabindex="0" role="button" data-i18n-aria="flipAria" aria-label="Karte umdrehen"><div class="flip-card-inner">
-        <div class="flip-face flip-front"><p data-i18n="flip5F">Empfangen statt erzwingen</p></div>
-        <div class="flip-face flip-back"><p data-i18n="flip5B">Manchmal entsteht mehr durch Innehalten und Zuhören als durch mehr Anstrengung — als Praxis gemeint, nicht als Ausrede, Dinge liegen zu lassen.</p></div>
-      </div></div>
-      <div class="flip-card" tabindex="0" role="button" data-i18n-aria="flipAria" aria-label="Karte umdrehen"><div class="flip-card-inner">
-        <div class="flip-face flip-front"><p data-i18n="flip6F">Struktur als Werkzeug</p></div>
-        <div class="flip-face flip-back"><p data-i18n="flip6B">Prozesse, Rollen, Datenschutz-Regeln gibt es bei uns bewusst — nicht weil wir Kontrolle über Vertrauen stellen, sondern weil klare Leitplanken echtes Loslassen erst möglich machen.</p></div>
-      </div></div>
-    </div>
-
-    <div class="contradiction-block reveal">
-      <h3 class="contradiction-title" data-i18n="contradictionTitle">Widerspruch hat hier einen festen Platz</h3>
-      <p data-i18n="contradictionP">Wenn du nach einer Weile merkst, dass unsere Grundannahmen nicht deine sind — nicht die Praxis, sondern die Annahmen selbst — heißt das nicht, dass du "noch nicht so weit" bist. Es heißt, dass du eine andere, ebenso gültige Sicht mitbringst. Diese Sicht soll eine echte Stimme bei echten Entscheidungen sein, nicht nur eine geduldete Meinung am Rand.</p>
-      <div class="placeholder-note">
-        <span class="fill-label" data-i18n="fillLabel">Auszufüllen von euch als Community</span>
-        <p data-i18n="placeholderP">Wo und wie das im Alltag konkret stattfindet — ein fester Kreis, ein Kanal, eine Rolle, die genau das hält — ist eine echte Entscheidung, kein Formulartext. Das gehört hier noch ergänzt.</p>
-      </div>
+      <h2 class="stitle" data-i18n="zwTitle">Ein kurzer Innen-Check, bevor es weitergeht.</h2>
+      <p class="lead" style="margin-inline:auto;" data-i18n="zwLead">Nur ein paar Fragen zu dir: wie du gerade da bist, was dich reguliert, wonach du entscheidest, was dir wichtig ist.</p>
     </div>
 
     <div class="shead reveal" style="margin-top:36px;">
       <span class="sec-label" data-i18n="alignQLabel">Jetzt du</span>
-      <p class="lead" data-i18n="alignQLead">Drei Fragen, kein Test. Freitext, so lang oder kurz du magst.</p>
+      <p class="lead" data-i18n="alignQLead">Drei Fragen. Freitext, so lang oder kurz du magst.</p>
     </div>
 
-    <div class="field reveal"><label for="q-align-match" data-i18n="qAlignMatchLabel">Was davon deckt sich mit deiner eigenen Erfahrung?</label>
+    <div class="field reveal"><label for="q-align-match" data-i18n="qAlignMatchLabel">Welche Grundannahmen oder Überzeugungen sind dir wichtig, wenn du an Gemeinschaft und Zusammenleben denkst?</label>
+      <span class="hint" data-i18n="qAlignMatchHint">Kann um Entscheidungen, Geld, Privatsphäre, Ehrlichkeit, Konflikt, Spiritualität gehen — was dir als Erstes einfällt.</span>
       <textarea class="fieldbox" id="q-align-match" data-field="align_deckt_sich" rows="2" placeholder="…"></textarea></div>
-    <div class="field reveal"><label for="q-align-contradict" data-i18n="qAlignContradictLabel">Wo würdest du widersprechen — nicht der Praxis, sondern den Grundannahmen selbst?</label>
+    <div class="field reveal"><label for="q-align-contradict" data-i18n="qAlignContradictLabel">Gibt es Überzeugungen, in denen du dich typischerweise von anderen unterscheidest oder anecken könntest?</label>
+      <span class="hint" data-i18n="qAlignContradictHint">Hilfreich, das schon vorher zu benennen.</span>
       <textarea class="fieldbox" id="q-align-contradict" data-field="align_widerspruch" rows="2" placeholder="…"></textarea></div>
-    <div class="field reveal"><label for="q-align-room" data-i18n="qAlignRoomLabel">Was würdest du uns mitgeben, damit dieser Widerspruch wirklich Raum bekommt?</label>
-      <span class="hint" data-i18n="qAlignRoomHint">Das ist die Frage direkt über dem Absatz "Auszufüllen von euch als Community" — deine Antwort ist echtes Material dafür.</span>
+    <div class="field reveal"><label for="q-align-room" data-i18n="qAlignRoomLabel">Was würdest du dir wünschen, wie mit unterschiedlichen Sichtweisen in einer Gemeinschaft umgegangen wird?</label>
+      <span class="hint" data-i18n="qAlignRoomHint">Deine Antwort hilft uns, das später gemeinsam als Community zu gestalten.</span>
       <textarea class="fieldbox" id="q-align-room" data-field="align_raum_vorschlag" rows="2" placeholder="…"></textarea></div>
 
     <div class="shead reveal" style="margin-top:36px;">
       <span class="sec-label" data-i18n="bmsLabel">Body &middot; Mind &middot; Soul</span>
-      <p class="lead" data-i18n="bmsLead">Antippen statt schreiben — kein Muss, geht schneller als die Fragen oben.</p>
+      <p class="lead" data-i18n="bmsLead">Antippen statt schreiben.</p>
     </div>
 
     <p class="cards-intro reveal" data-i18n="bmsBodyLabel">Body</p>
@@ -487,9 +478,9 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
         <input type="range" min="1" max="7" step="1" value="4" class="falsify unset" data-field="mind_struktur_freiheit" data-i18n-aria="fbUnsetAria" aria-label="Noch nicht gesetzt">
         <span class="fb-val" data-unset="1">&ndash;</span>
       </div></div>
-    <div class="field reveal"><label data-i18n="qMindCollectiveLabel">Und hier?</label>
+    <div class="field reveal"><label data-i18n="qMindCollectiveLabel">Wo zieht dich deine Energie hin?</label>
       <div class="fb-poles" style="margin-top:10px;max-width:420px;">
-        <span data-i18n="bmsCollPoleLow">für etwas Größeres</span><span data-i18n="bmsCollPoleHigh">eigene Entfaltung</span>
+        <span data-i18n="bmsCollPoleLow">Größerem dienen</span><span data-i18n="bmsCollPoleHigh">eigene Entfaltung</span>
       </div>
       <div class="fb-row" style="max-width:420px;">
         <input type="range" min="1" max="7" step="1" value="4" class="falsify unset" data-field="mind_kollektiv_individuum" data-i18n-aria="fbUnsetAria" aria-label="Noch nicht gesetzt">
@@ -513,20 +504,6 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
       </div>
       <textarea class="fieldbox" data-field="soul_werte_andere" rows="1" data-i18n-ph="chipOtherPh" placeholder="Etwas anderes? …" style="margin-top:8px;"></textarea></div>
 
-    <details class="fb" data-node="philosophie">
-      <summary data-i18n="zwFbSummary">Notiz zum &bdquo;Zwischenraum&ldquo;</summary>
-      <div class="fb-body">
-        <div class="fb-poles"><span data-i18n="fbPoleNeg">widerspricht meiner Erfahrung</span><span data-i18n="fbPolePos">deckt sich damit</span></div>
-        <div class="fb-row"><input type="range" min="1" max="7" step="1" value="4" class="falsify unset" data-fb="falsify" data-node="philosophie" data-i18n-aria="fbUnsetAria" aria-label="Noch nicht gesetzt"><span class="fb-val" data-unset="1">&ndash;</span></div>
-        <div class="fb-chips">
-          <button type="button" class="fb-chip" data-mc="yes" data-node="philosophie" data-i18n="fbChipYes">ja, das</button>
-          <button type="button" class="fb-chip" data-mc="unsure" data-node="philosophie" data-i18n="fbChipUnsure">unsicher</button>
-          <button type="button" class="fb-chip" data-mc="off" data-node="philosophie" data-i18n="fbChipOff">daneben</button>
-        </div>
-        <textarea class="fb-note" data-node="philosophie" data-i18n-ph="fbNotePh" placeholder="Was an diesem Abschnitt trifft für dich nicht zu?" data-i18n-aria="notePrefix" aria-label="Notiz"></textarea>
-      </div>
-    </details>
-
     <div class="continue-links reveal">
       <button class="begin-btn" data-target="closing" type="button" data-i18n="zwToClose">Zum Abschluss</button>
     </div>
@@ -541,7 +518,7 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
     <div class="shead reveal">
       <h2 class="stitle" data-i18n="closingTitle">Danke, dass du dir das angeschaut hast.</h2>
     </div>
-    <p class="reveal" data-i18n="closingP1">Was du geteilt hast, gehört dir. Diese Seite hat nichts davon irgendwohin geschickt — du entscheidest jetzt, ob und mit wem du es teilst.</p>
+    <p class="reveal" data-i18n="closingP1">Kurz erinnert: Nichts davon ist irgendwohin gegangen außer auf dein eigenes Gerät — von hier aus entscheidest du, was damit passiert.</p>
     <button class="export-btn reveal" id="export-btn" type="button" data-i18n="exportBtn">Deine Antworten als Datei mitnehmen</button>
     <div class="export-confirm" id="export-confirm" data-i18n="exportConfirm">Heruntergeladen — sie liegt jetzt nur bei dir.</div>
     <p class="reveal" style="font-size:.82rem;margin-top:16px;" data-i18n="closingP3">Leere Fragen werden nicht als Fehler gezählt — sie bleiben einfach leer.</p>
@@ -550,14 +527,15 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
 
 </main>
 
-<footer class="credit" data-i18n="footer">Flowfamily — Portale zum Ankommen</footer>
+<footer class="credit" data-i18n="footer">Flowfamily — Alignment-Fragebogen</footer>
 
 <div class="savebar">
   <span class="flash" id="saveFlash" data-i18n="saveFlash">gespeichert</span>
-  <button type="button" onclick="manualSave()" data-i18n="saveBtn">Speichern</button>
-  <button type="button" class="primary" onclick="downloadNotes()" data-i18n="exportBarBtn">Exportieren</button>
+  <button type="button" onclick="manualSave(this)" data-i18n="saveBtn">Speichern</button>
+  <button type="button" onclick="downloadNotes(this)" data-i18n="exportBarBtn">Exportieren</button>
   <label for="importFile" data-i18n="importBtn">Importieren</label>
   <input type="file" id="importFile" accept="application/json" onchange="importNotes(event)">
+  <button type="button" onclick="resetState()" data-i18n="resetBtn">Zurücksetzen</button>
 </div>
 
 <script>
@@ -571,78 +549,53 @@ var LS = 'flowfamily_alignment_v1';
 /* ---------- i18n ---------- */
 var I18N = {
   navAria: { de:"Gezeiten-Kompass", en:"Tide Compass" },
+  dictateHint: { de:"Diktieren: hier reinklicken, dann Win+H (Windows) bzw. zweimal fn (Mac) drücken.", en:"Dictate: click in here, then press Win+H (Windows) or fn twice (Mac)." },
   tickHero: { de:"Anfang", en:"Start" },
   tickPhilosophie: { de:"Raum", en:"Space" },
   tickClosing: { de:"Torausgang", en:"Gate Out" },
   themeLight: { de:"Licht", en:"Light" },
   themeDark: { de:"Dunkel", en:"Dark" },
+  lockTitle: { de:"Bevor es weitergeht", en:"Before we continue" },
+  lockHint: { de:"Dieses Portal ist nur für Menschen, die den ersten Fragebogen abgeschlossen haben. Das Passwort hast du dort am Ende bekommen.", en:"This portal is for people who've completed the first questionnaire. You got the password there, at the end." },
+  lockPh: { de:"Passwort", en:"Password" },
+  lockBtn: { de:"Öffnen", en:"Open" },
+  lockError: { de:"Das war's noch nicht — versuch's nochmal.", en:"Not quite — try again." },
   eyebrow: { de:"Flowfamily \u00b7 Alignment-Fragebogen", en:"Flowfamily \u00b7 Alignment Questionnaire" },
-  htitle: { de:"Du bist angekommen.<br>Jetzt zeigen wir dir, wie wir denken.", en:"You've arrived.<br>Now we'll show you how we think." },
-  heroSub1: { de:"Das hier ist die Fortsetzung des ersten Fragebogens \u2014 unsere Kosmologie, in zwei gleich gewichteten Sprachen. Kein Test, keine Zulassungspr\u00fcfung.", en:"This is the sequel to the first questionnaire \u2014 our cosmology, in two equally weighted voices. Not a test, not an entrance exam." },
-  heroSub2: { de:"Du musst nichts davon teilen, um dazuzugeh\u00f6ren. Am Ende darfst du dir Notizen machen und sagen, wo du zustimmst und wo nicht.", en:"You don't have to share any of it to belong. At the end, you're welcome to leave notes and tell us where you agree and where you don't." },
+  htitle: { de:"Willkommen zur\u00fcck.<br>Noch ein paar Fragen, damit wir dich etwas tiefer kennenlernen.", en:"Welcome back.<br>A few more questions, so we can get to know you a little deeper." },
+  heroSub1: { de:"Das hier ist die Fortsetzung des ersten Fragebogens \u2014 ein paar Fragen mehr zu dir.", en:"This is the second part of the first questionnaire \u2014 a few more questions about you." },
+  heroSub2: { de:"Am Ende darfst du dir Notizen machen und sagen, wo du zustimmst und wo nicht.", en:"At the end, you're welcome to leave notes and tell us where you agree and where you don't." },
   heroSub3: { de:"Wasser, Erde, Feuer, Luft \u2014 und Raum als das F\u00fcnfte, das \u00fcbrig bleibt, wenn die vier durch dich gegangen sind. Was du hier l\u00e4sst, findet sp\u00e4ter mit Human Design, Gene Keys und Numerologie zu deinem eigenen Bild zusammen \u2014 das siehst du zuerst, bevor irgendetwas davon woanders hinflie\u00dft.", en:"Water, earth, fire, air \u2014 and space as the fifth, what remains once the four have moved through you. What you leave here later joins Human Design, Gene Keys and numerology in your own picture \u2014 you see that first, before any of it goes anywhere else." },
   metaServer: { de:"Kein Server", en:"No server" },
   metaSkip: { de:"Jede Frage \u00fcberspringbar", en:"Every question is skippable" },
   metaLocal: { de:"Speichert lokal", en:"Saves locally" },
+  metaTime: { de:"Ca. 5–8 Min.", en:"About 5–8 minutes" },
   beginBtn: { de:"Weiter \u2192", en:"Continue \u2192" },
 
-  fbPoleNeg: { de:"widerspricht meiner Erfahrung", en:"contradicts my experience" },
-  fbPolePos: { de:"deckt sich damit", en:"matches it" },
-  fbChipYes: { de:"ja, das", en:"yes, that" },
-  fbChipUnsure: { de:"unsicher", en:"unsure" },
-  fbChipOff: { de:"daneben", en:"off the mark" },
-  fbNotePh: { de:"Was an diesem Abschnitt trifft f\u00fcr dich nicht zu?", en:"What in this section doesn't ring true for you?" },
   fbUnsetAria: { de:"Noch nicht gesetzt", en:"Not set yet" },
+  qfbToggle: { de:"Feedback zu dieser Frage", en:"Feedback on this question" },
+  qfbTagClear: { de:"klar", en:"clear" },
+  qfbTagUnclear: { de:"unklar", en:"unclear" },
+  qfbTagRedundant: { de:"\u00fcberfl\u00fcssig", en:"unnecessary" },
+  qfbTagMissing: { de:"fehlt etwas", en:"missing something" },
+  qfbNotePh: { de:"Was w\u00fcrdest du an dieser Frage \u00e4ndern?", en:"What would you change about this question?" },
   fbSetAria: { de:"Auf {v} von 7 gesetzt", en:"Set to {v} of 7" },
-  notePrefix: { de:"Notiz", en:"Note" },
 
   zwLabel: { de:"Raum · Portal 4", en:"Space · Portal 4" },
-  zwTitle: { de:"Wie wir die Welt sehen \u2014 und wie du sie sehen darfst.", en:"How we see the world \u2014 and how you're allowed to see it." },
-  zwLead: { de:"Das hier ist unsere Kosmologie, nicht deine Zulassungspr\u00fcfung. Du musst nichts davon teilen, um dazuzugeh\u00f6ren \u2014 deshalb stehen zwei Sprachen nebeneinander, gleich gewichtet.", en:"This is our cosmology, not your entrance exam. You don't have to share any of it to belong \u2014 which is why two voices stand side by side here, equally weighted." },
-  netAria: { de:"Zwei verbundene Stimmen: Picassions Sprache und die weltliche \u00dcbersetzung", en:"Two connected voices: Picassion's language and its everyday translation" },
-  netCaption: { de:"Zwei Stimmen, eine Bewegung \u2014 Erkennen \u2192 Umkehrung \u2192 Aktivierung", en:"Two voices, one movement \u2014 Recognizing \u2192 Reversal \u2192 Activation" },
-  lensLabel1: { de:"In Picassions Sprache", en:"In Picassion's language" },
-  lens1P1: { de:"Ich merke es zuerst am Zwang: wenn sich etwas wie Arbeit anf\u00fchlt, wie Anstrengung, wie ein Kompromiss, bin ich in der Sprache der Trennung gelandet \u2014 im Glauben, dass etwas fehlt und ich es erst herstellen muss.", en:"I notice it first as force: when something feels like work, like strain, like a compromise, I've landed in the language of separation \u2014 in the belief that something is missing and I still have to make it happen." },
-  lens1P2: { de:"Aber genau das Erzwingen zeigt mir, wo ich mich selbst verloren habe. Die Situationen, in denen ich immer wieder leide, sind fast immer dieselbe \u2014 nur mit anderen Gesichtern, anderen Spielpartnern. Behandle ich sie als Gegner, verliere ich Kraft im Kampf. Sehe ich sie als Spiegel, finde ich das Geschenk, das im Schatten wartet, statt es mir m\u00fchsam zu erarbeiten.", en:"But the forcing itself shows me exactly where I've lost myself. The situations I keep suffering through are almost always the same one \u2014 just with different faces, different players. Treat them as opponents, and I lose strength in the fight. See them as a mirror, and I find the gift waiting in the shadow instead of having to earn it the hard way." },
-  lens1P3: { de:"Surrender ist f\u00fcr mich kein Aufgeben, sondern ein Hinlauschen: der Moment, in dem der Schmerz gro\u00df genug wird, dass ich loslasse \u2014 und sich wie von selbst ein leichterer Weg zeigt, der die ganze Zeit schon da war. Ich glaube: alles existiert bereits. Es braucht keine Erschaffung durch Kraft, sondern Bewusstseinsarchitektur und Praktizierende, die bereit sind zu empfangen, statt zu erzwingen.", en:"Surrender, for me, isn't giving up \u2014 it's listening closer: the moment the pain grows big enough that I let go \u2014 and, almost by itself, an easier path appears that was there the whole time. I believe everything already exists. It doesn't need to be forced into being \u2014 it needs consciousness architecture and practitioners willing to receive rather than force." },
-  lens1P4: { de:"Deshalb verstehe ich uns nicht als Regelsystem, sondern als ein Feld, das sich dahin bewegt, wo diese Art von Pr\u00e4senz gerade lebendig ist. Und deshalb bin ich \u00fcberzeugt: wir sind nicht die, die etwas erschaffen m\u00fcssen \u2014 wir sind die Schnittstelle, durch die es sich zeigt, wenn wir aufh\u00f6ren, im Weg zu stehen.", en:"That's why I don't think of us as a rule system, but as a field that moves toward wherever this kind of presence is alive right now. And that's why I'm convinced: we're not the ones who have to create something \u2014 we're the interface it shows up through, once we stop standing in the way." },
-  lensLabel2: { de:"In anderen Worten", en:"In other words" },
-  lens2P1: { de:"Der erste Hinweis ist oft k\u00f6rperlich: wenn eine Aufgabe sich dauerhaft wie Zwang anf\u00fchlt, ist das Nervensystem meist in erh\u00f6hter Alarmbereitschaft \u2014 nicht weil die Aufgabe falsch ist, sondern weil der innere Zustand, aus dem heraus sie erledigt wird, angespannt ist.", en:"The first clue is often physical: when a task feels like force for a sustained stretch, the nervous system is usually on heightened alert \u2014 not because the task is wrong, but because the inner state it's being done from is tense." },
-  lens2P2: { de:"Genau dieses Signal ist keine St\u00f6rung, sondern Information: es zeigt einen Punkt, an dem Kontrolle versucht wird, wo eigentlich Regulation gebraucht wird. Wiederkehrende schwierige Situationen mit wechselnden Menschen sind oft dasselbe Muster in neuer Verkleidung \u2014 und das Muster zu erkennen, statt es jedes Mal neu zu bek\u00e4mpfen, spart genau die Energie, die vorher im Kampf verloren ging.", en:"That signal isn't a malfunction \u2014 it's information: it points to a spot where control is being attempted, where regulation is actually needed. Recurring hard situations with different people are often the same pattern in a new disguise \u2014 and recognizing the pattern, instead of fighting it fresh each time, saves exactly the energy that used to go into the fight." },
-  lens2P3: { de:"Der Wechsel geschieht nicht durch mehr Anstrengung, sondern durch das Gegenteil: das Nervensystem lernt Sicherheit meist dann, wenn Druck kurz aufh\u00f6rt \u2014 und in diesem Moment wird oft ein Weg sichtbar, der vorher blockiert war, weil verengter, gestresster Fokus Optionen ausblendet.", en:"The shift doesn't happen through more effort but through the opposite: the nervous system usually learns safety when pressure briefly lets up \u2014 and in that moment a path often becomes visible that was blocked before, because a narrowed, stressed focus hides options." },
-  lens2P4: { de:"Ein Team, das diesen Zustand kennt und ernst nimmt, statt ihn zu \u00fcbergehen, reagiert nachweislich schneller auf das, was gerade wirklich gebraucht wird \u2014 solange klar bleibt, wer wof\u00fcr verantwortlich ist.", en:"A team that knows this state and takes it seriously, instead of overriding it, demonstrably responds faster to what's actually needed \u2014 as long as it stays clear who's responsible for what." },
-
-  cardsIntro: { de:"Kein Test, keine Pflicht \u2014 ein paar Linsen zum Anschauen. Zum Umdrehen antippen.", en:"Not a test, not required \u2014 a few lenses to look through. Tap to flip." },
-  flipAria: { de:"Karte umdrehen", en:"Flip card" },
-  flip1F: { de:"Resonanz statt Kontrolle", en:"Resonance over control" },
-  flip1B: { de:"Wir verstehen uns eher als Feld, das sich dahin bewegt, wo Energie da ist, als als System mit festen Vorgaben. Das hei\u00dft nicht chaotisch \u2014 Richtung entsteht oft, statt erzwungen zu werden.", en:"We think of ourselves more as a field moving toward where the energy is than as a system of fixed rules. That doesn't mean chaotic \u2014 direction often emerges rather than being forced." },
-  flip2F: { de:"Schatten als Spiegel", en:"Shadow as mirror" },
-  flip2B: { de:"Wiederkehrende schwierige Situationen sind f\u00fcr uns eher derselbe Lernstoff mit wechselnden Gesichtern als neue, unabh\u00e4ngige Probleme.", en:"For us, recurring hard situations are more the same lesson wearing different faces than new, unrelated problems." },
-  flip3F: { de:"Nervensystem & Fenster der Toleranz", en:"Nervous system & window of tolerance" },
-  flip3B: { de:"Merkst du bei dir, wann du eher aus \u00dcberreizung oder R\u00fcckzug reagierst als aus Ruhe? Das zu kennen ist f\u00fcr uns Selbstf\u00fcrsorge \u2014 kein Ma\u00dfstab daf\u00fcr, wer \"bereit\" ist.", en:"Do you notice when you're reacting from overstimulation or withdrawal rather than calm? Knowing that is self-care to us \u2014 not a measure of who's \"ready.\"" },
-  flip4F: { de:"Rhythmus statt Zwang", en:"Rhythm over force" },
-  flip4B: { de:"Unterschiedliche Menschen brauchen unterschiedliches Tempo. Beides kann gleichzeitig wahr sein: etwas ernst nehmen und sich nicht daran verausgaben.", en:"Different people need different tempos. Both can be true at once: taking something seriously and not burning yourself out on it." },
-  flip5F: { de:"Empfangen statt erzwingen", en:"Receiving over forcing" },
-  flip5B: { de:"Manchmal entsteht mehr durch Innehalten und Zuh\u00f6ren als durch mehr Anstrengung \u2014 als Praxis gemeint, nicht als Ausrede, Dinge liegen zu lassen.", en:"Sometimes more comes from pausing and listening than from more effort \u2014 meant as a practice, not an excuse to let things slide." },
-  flip6F: { de:"Struktur als Werkzeug", en:"Structure as a tool" },
-  flip6B: { de:"Prozesse, Rollen, Datenschutz-Regeln gibt es bei uns bewusst \u2014 nicht weil wir Kontrolle \u00fcber Vertrauen stellen, sondern weil klare Leitplanken echtes Loslassen erst m\u00f6glich machen.", en:"We have processes, roles, and privacy rules on purpose \u2014 not because we place control above trust, but because clear guardrails are what make real letting-go possible." },
-
-  contradictionTitle: { de:"Widerspruch hat hier einen festen Platz", en:"Contradiction has a fixed place here" },
-  contradictionP: { de:"Wenn du nach einer Weile merkst, dass unsere Grundannahmen nicht deine sind \u2014 nicht die Praxis, sondern die Annahmen selbst \u2014 hei\u00dft das nicht, dass du \"noch nicht so weit\" bist. Es hei\u00dft, dass du eine andere, ebenso g\u00fcltige Sicht mitbringst. Diese Sicht soll eine echte Stimme bei echten Entscheidungen sein, nicht nur eine geduldete Meinung am Rand.", en:"If, after a while, you notice that our basic assumptions aren't yours \u2014 not the practice, but the assumptions themselves \u2014 that doesn't mean you're \"not there yet.\" It means you're bringing a different, equally valid view. That view is meant to be a real voice in real decisions, not just a tolerated opinion at the edge." },
-  fillLabel: { de:"Auszuf\u00fcllen von euch als Community", en:"To be filled in by you, as a community" },
-  placeholderP: { de:"Wo und wie das im Alltag konkret stattfindet \u2014 ein fester Kreis, ein Kanal, eine Rolle, die genau das h\u00e4lt \u2014 ist eine echte Entscheidung, kein Formulartext. Das geh\u00f6rt hier noch erg\u00e4nzt.", en:"Where and how this actually happens day to day \u2014 a standing circle, a channel, a role that holds exactly this \u2014 is a real decision, not form text. This still needs to be filled in here." },
-  zwFbSummary: { de:"Notiz zum \u201eZwischenraum\u201c", en:"Note on \"In-Between\"" },
+  zwTitle: { de:"Ein kurzer Innen-Check, bevor es weitergeht.", en:"A brief check-in with yourself, before we continue." },
+  zwLead: { de:"Nur ein paar Fragen zu dir: wie du gerade da bist, was dich reguliert, wonach du entscheidest, was dir wichtig ist.", en:"Just a few questions about you: how you're doing right now, what regulates you, how you decide, what matters to you." },
   zwToClose: { de:"Zum Abschluss", en:"To the close" },
 
   alignQLabel: { de:"Jetzt du", en:"Your turn" },
-  alignQLead: { de:"Drei Fragen, kein Test. Freitext, so lang oder kurz du magst.", en:"Three questions, not a test. Free text, as long or short as you like." },
-  qAlignMatchLabel: { de:"Was davon deckt sich mit deiner eigenen Erfahrung?", en:"What here matches your own experience?" },
-  qAlignContradictLabel: { de:"Wo w\u00fcrdest du widersprechen \u2014 nicht der Praxis, sondern den Grundannahmen selbst?", en:"Where would you disagree \u2014 not with the practice, but with the assumptions themselves?" },
-  qAlignRoomLabel: { de:"Was w\u00fcrdest du uns mitgeben, damit dieser Widerspruch wirklich Raum bekommt?", en:"What would you tell us so this disagreement gets real room?" },
-  qAlignRoomHint: { de:"Das ist die Frage direkt \u00fcber dem Absatz \"Auszuf\u00fcllen von euch als Community\" \u2014 deine Antwort ist echtes Material daf\u00fcr.", en:"This is the question right above the \"to be filled in by the community\" note \u2014 your answer is real material for it." },
+  alignQLead: { de:"Drei Fragen. Freitext, so lang oder kurz du magst.", en:"Three questions. Free text, as long or short as you like." },
+  qAlignMatchLabel: { de:"Welche Grundannahmen oder Überzeugungen sind dir wichtig, wenn du an Gemeinschaft und Zusammenleben denkst?", en:"What core beliefs or assumptions matter to you when you think about community and living together?" },
+  qAlignMatchHint: { de:"Kann um Entscheidungen, Geld, Privatsphäre, Ehrlichkeit, Konflikt, Spiritualität gehen — was dir als Erstes einfällt.", en:"Could be about decision-making, money, privacy, honesty, conflict, spirituality — whatever comes up first." },
+  qAlignContradictLabel: { de:"Gibt es Überzeugungen, in denen du dich typischerweise von anderen unterscheidest oder anecken könntest?", en:"Are there beliefs where you typically differ from others, or where friction might show up?" },
+  qAlignContradictHint: { de:"Hilfreich, das schon vorher zu benennen.", en:"Useful to name ahead of time." },
+  qAlignRoomLabel: { de:"Was würdest du dir wünschen, wie mit unterschiedlichen Sichtweisen in einer Gemeinschaft umgegangen wird?", en:"What would you wish for, in how a community handles differing viewpoints?" },
+  qAlignRoomHint: { de:"Deine Antwort hilft uns, das später gemeinsam als Community zu gestalten.", en:"Your answer helps us shape that together as a community later on." },
 
   bmsLabel: { de:"Body · Mind · Soul", en:"Body · Mind · Soul" },
-  bmsLead: { de:"Antippen statt schreiben \u2014 kein Muss, geht schneller als die Fragen oben.", en:"Tap instead of type \u2014 not required, faster than the questions above." },
+  bmsLead: { de:"Antippen statt schreiben.", en:"Tap instead of type." },
   bmsMultiHint: { de:"Mehrfachauswahl m\u00f6glich.", en:"Multiple choices allowed." },
   bmsBodyLabel: { de:"Body", en:"Body" },
   bmsMindLabel: { de:"Mind", en:"Mind" },
@@ -652,14 +605,14 @@ var I18N = {
   bmsActPoleHigh: { de:"zur\u00fcckgezogen", en:"withdrawn" },
   bmsStructPoleLow: { de:"klare Struktur", en:"clear structure" },
   bmsStructPoleHigh: { de:"Freiheit & Wandel", en:"freedom & change" },
-  bmsCollPoleLow: { de:"f\u00fcr etwas Gr\u00f6\u00dferes", en:"for something bigger" },
+  bmsCollPoleLow: { de:"Gr\u00f6\u00dferem dienen", en:"something bigger than me" },
   bmsCollPoleHigh: { de:"eigene Entfaltung", en:"my own unfolding" },
   qBodyActLabel: { de:"Wie aktiviert f\u00fchlst du dich gerade?", en:"How activated do you feel right now?" },
-  qBodyRegLabel: { de:"Was hilft dir am schnellsten runter zu kommen?", en:"What helps you come down the fastest?" },
+  qBodyRegLabel: { de:"Was hilft dir am schnellsten runter zu kommen?", en:"What helps you settle back down the fastest?" },
   qBodyRhythmLabel: { de:"Wie tickt deine innere Uhr?", en:"How does your inner clock tick?" },
   qMindDecideLabel: { de:"Wie triffst du Entscheidungen, meistens?", en:"How do you usually make decisions?" },
   qMindStructLabel: { de:"Was zieht dich mehr?", en:"What pulls you more?" },
-  qMindCollectiveLabel: { de:"Und hier?", en:"And here?" },
+  qMindCollectiveLabel: { de:"Wo zieht dich deine Energie hin?", en:"Where does your energy pull you?" },
   qSoulValuesLabel: { de:"Was ist dir wichtig? W\u00e4hl aus, was passt.", en:"What matters to you? Pick what fits." },
   chipOtherPh: { de:"Etwas anderes? \u2026", en:"Something else? \u2026" },
   chipMovement: { de:"Bewegung", en:"Movement" },
@@ -687,7 +640,7 @@ var I18N = {
   chipPlayfulness: { de:"Verspieltheit", en:"Playfulness" },
 
   closingTitle: { de:"Danke, dass du dir das angeschaut hast.", en:"Thank you for taking this in." },
-  closingP1: { de:"Was du geteilt hast, geh\u00f6rt dir. Diese Seite hat nichts davon irgendwohin geschickt \u2014 du entscheidest jetzt, ob und mit wem du es teilst.", en:"What you shared belongs to you. This page hasn't sent any of it anywhere \u2014 you now decide whether and with whom you share it." },
+  closingP1: { de:"Kurz erinnert: Nichts davon ist irgendwohin gegangen au\u00dfer auf dein eigenes Ger\u00e4t \u2014 von hier aus entscheidest du, was damit passiert.", en:"Quick reminder: none of this went anywhere but your own device \u2014 you decide what happens to it from here." },
   exportBtn: { de:"Deine Antworten als Datei mitnehmen", en:"Take your answers as a file" },
   exportConfirm: { de:"Heruntergeladen \u2014 sie liegt jetzt nur bei dir.", en:"Downloaded \u2014 it's yours alone now." },
   closingP3: { de:"Leere Fragen werden nicht als Fehler gez\u00e4hlt \u2014 sie bleiben einfach leer.", en:"Blank questions aren't counted as errors \u2014 they just stay blank." },
@@ -697,6 +650,8 @@ var I18N = {
   saveBtn: { de:"Speichern", en:"Save" },
   exportBarBtn: { de:"Exportieren", en:"Export" },
   importBtn: { de:"Importieren", en:"Import" },
+  resetBtn: { de:"Zurücksetzen", en:"Reset" },
+  resetConfirm: { de:"Alle deine Antworten auf diesem Gerät löschen? Das kann nicht rückgängig gemacht werden.", en:"Delete all your answers on this device? This can't be undone." },
   importAlert: { de:"Diese Datei konnte nicht gelesen werden.", en:"This file could not be read." },
   filenameFallback: { de:"meine-antworten", en:"my-answers" }
 };
@@ -730,7 +685,35 @@ function save(d){ try { localStorage.setItem(LS, JSON.stringify(d)); } catch(e){
 var state = load();
 state.fields = state.fields || {};
 state.feedback = state.feedback || {};
+state.qfb = state.qfb || {};
 function ensureFb(n){ if(!state.feedback[n]) state.feedback[n] = {}; return state.feedback[n]; }
+
+/* ---------- lock screen (soft gate, not real security — password lives in this file's source) ---------- */
+var LOCK_PASSWORD = 'raum2026';
+function checkLock(){
+  var scr = document.getElementById('lockScreen');
+  if (!scr) return;
+  if (state._unlocked){ scr.style.display = 'none'; return; }
+  scr.style.display = 'flex';
+}
+function tryUnlock(){
+  var input = document.getElementById('lockInput');
+  var err = document.getElementById('lockError');
+  var val = (input.value || '').trim().toLowerCase();
+  if (val === LOCK_PASSWORD){
+    state._unlocked = true; save(state);
+    document.documentElement.setAttribute('data-unlocked', '1');
+    document.getElementById('lockScreen').style.display = 'none';
+  } else {
+    err.classList.add('on');
+    input.focus(); input.select();
+  }
+}
+var lockBtn = document.getElementById('lockBtn');
+var lockInput = document.getElementById('lockInput');
+if (lockBtn) lockBtn.addEventListener('click', tryUnlock);
+if (lockInput) lockInput.addEventListener('keydown', function(e){ if (e.key === 'Enter') tryUnlock(); });
+checkLock();
 
 /* ---------- theme ---------- */
 function setTheme(theme){
@@ -750,7 +733,7 @@ function toggleTheme(){
 var ticks = [].slice.call(document.querySelectorAll('.td-tick'));
 var hand = document.getElementById('tdHand');
 var anchors = [];
-var current = 0;
+var current = -1;
 function measure(){
   anchors = SECS.filter(function(s){
     var el = document.getElementById(s.id);
@@ -761,7 +744,6 @@ function measure(){
   });
 }
 function lerpHue(a, b, f){ var d = ((b - a + 540) % 360) - 180; return (a + d * f + 360) % 360; }
-function lerpAng(a, b, f){ var d = ((b - a + 540) % 360) - 180; return a + d * f; }
 function onScroll(){
   var y = window.pageYOffset;
   var probe = y + Math.min(window.innerHeight, 900) * 0.34;
@@ -771,10 +753,10 @@ function onScroll(){
   var span = Math.max(1, anchors[nxt].top - anchors[idx].top);
   var f = Math.min(1, Math.max(0, (probe - anchors[idx].top) / span));
   SACRED.setHue(lerpHue(anchors[idx].h, anchors[nxt].h, f));
-  if (hand) hand.style.setProperty('--hand-ang', lerpAng(anchors[idx].ang, anchors[nxt].ang, f) + 'deg');
   if (idx !== current){
     current = idx;
     ticks.forEach(function(t, i){ t.classList.toggle('on', i === idx); });
+    if (hand) hand.style.setProperty('--hand-ang', ((anchors[idx].ang + 180) % 360) + 'deg');
     paintChrome(); paintBrand();
   }
 }
@@ -799,6 +781,41 @@ ticks.forEach(function(t){
     if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 60, behavior: RM ? 'auto' : 'smooth' });
   });
 });
+
+/* ---------- tide-dial: rotate the mouse in a circle to step the arrow through sections, one at a time ---------- */
+(function(){
+  var dialEl = document.getElementById('tidedial');
+  if (!dialEl) return;
+  var STEP = 40; // degrees of accumulated circular mouse movement needed per section step
+  var lastAng = null;
+  var accum = 0;
+  var curIdx = current;
+  function angDelta(a, b){ return ((b - a + 540) % 360) - 180; }
+  function goTo(idx){
+    idx = Math.max(0, Math.min(ticks.length - 1, idx));
+    if (idx === curIdx) return;
+    curIdx = idx;
+    var el = document.getElementById(ticks[idx].getAttribute('data-target'));
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 60, behavior: RM ? 'auto' : 'smooth' });
+  }
+  dialEl.addEventListener('mousemove', function(e){
+    if (RM) return;
+    var rect = dialEl.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+    var dx = e.clientX - cx, dy = e.clientY - cy;
+    if (Math.sqrt(dx * dx + dy * dy) < 8){ lastAng = null; return; }
+    var ang = (Math.atan2(dx, -dy) * 180 / Math.PI + 360) % 360;
+    if (lastAng === null){
+      curIdx = current;
+    } else {
+      accum += angDelta(lastAng, ang);
+      while (accum >= STEP){ accum -= STEP; goTo(curIdx + 1); }
+      while (accum <= -STEP){ accum += STEP; goTo(curIdx - 1); }
+    }
+    lastAng = ang;
+  });
+  dialEl.addEventListener('mouseleave', function(){ lastAng = null; accum = 0; });
+})();
 
 /* ---------- generative sacred geometry field ---------- */
 var SACRED = (function(){
@@ -908,73 +925,8 @@ var CIRCLE = (function(){
   return { recolor: recolor, boot: function(){ recolor(); } };
 })();
 
-/* ---------- Zwischenraum: twin-voice network sketch ---------- */
-var NET = (function(){
-  var cv = document.getElementById('netcanvas');
-  if (!cv) return { recolor: function(){}, boot: function(){} };
-  var ctx = cv.getContext('2d');
-  var W = cv.width, H = cv.height;
-  var nodes = [
-    { x: 0.24, y: 0.5, r: 9, label: "PICASSION" },
-    { x: 0.76, y: 0.5, r: 9, labelDe: "WELTLICH", labelEn: "EVERYDAY" },
-    { x: 0.5, y: 0.28, r: 4, label: null },
-    { x: 0.5, y: 0.5, r: 4, label: null },
-    { x: 0.5, y: 0.72, r: 4, label: null }
-  ];
-  var stageLabelsDe = ["ERKENNEN", "UMKEHRUNG", "AKTIVIERUNG"];
-  var stageLabelsEn = ["RECOGNIZING", "REVERSAL", "ACTIVATION"];
-  var col = { line: 'rgba(244,239,230,.16)', ink: '#f4efe6', hue: 'hsl(308,78%,64%)' };
-  function recolor(){
-    var cs = getComputedStyle(document.getElementById('philosophie') || document.documentElement);
-    var as = cs.getPropertyValue('--as').trim() || '78%';
-    var al = cs.getPropertyValue('--al').trim() || '64%';
-    var h = cs.getPropertyValue('--h').trim() || '308';
-    col.hue = 'hsl(' + h + ',' + as + ',' + al + ')';
-    col.ink = cs.getPropertyValue('--ink').trim() || col.ink;
-    col.line = cs.getPropertyValue('--hair').trim() || col.line;
-    draw(0);
-  }
-  function draw(ph){
-    ctx.clearRect(0, 0, W, H);
-    ctx.lineWidth = 1;
-    for (var i = 2; i < nodes.length; i++){
-      var n = nodes[i];
-      var wob = Math.sin(ph * 0.6 + i) * 2;
-      ctx.beginPath(); ctx.setLineDash([3, 5]); ctx.strokeStyle = col.line;
-      ctx.moveTo(nodes[0].x * W, nodes[0].y * H); ctx.lineTo(n.x * W + wob, n.y * H); ctx.stroke();
-      ctx.beginPath(); ctx.strokeStyle = col.line;
-      ctx.moveTo(n.x * W + wob, n.y * H); ctx.lineTo(nodes[1].x * W, nodes[1].y * H); ctx.stroke();
-    }
-    ctx.setLineDash([]);
-    for (var j = 0; j < nodes.length; j++){
-      var m = nodes[j];
-      var wb = j < 2 ? 0 : Math.sin(ph * 0.6 + j) * 2;
-      ctx.beginPath(); ctx.arc(m.x * W + wb, m.y * H, m.r, 0, Math.PI * 2);
-      if (j < 2){ ctx.fillStyle = col.hue; ctx.fill(); } else { ctx.strokeStyle = col.line; ctx.stroke(); }
-    }
-    ctx.fillStyle = col.ink;
-    ctx.font = '600 11px "Quicksand", system-ui, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(nodes[0].label, nodes[0].x * W, nodes[0].y * H - 16);
-    ctx.fillText(lang === 'en' ? nodes[1].labelEn : nodes[1].labelDe, nodes[1].x * W, nodes[1].y * H - 16);
-    ctx.fillStyle = col.line;
-    ctx.font = '9px "Quicksand", system-ui, sans-serif';
-    var stageLabels = lang === 'en' ? stageLabelsEn : stageLabelsDe;
-    for (var k = 2; k < nodes.length; k++){ ctx.fillText(stageLabels[k-2], nodes[k].x * W, nodes[k].y * H + 16); }
-  }
-  var vis = false, ph = 0, lastN = 0;
-  function loop(now){
-    if (!vis || RM) return;
-    requestAnimationFrame(loop);
-    if (now - lastN < 66) return;
-    lastN = now; ph += 0.05; draw(ph);
-  }
-  var io = new IntersectionObserver(function(es){
-    es.forEach(function(e){ vis = e.isIntersecting; if (vis && !RM) requestAnimationFrame(loop); });
-  }, { threshold: 0.05 });
-  io.observe(cv);
-  return { recolor: recolor, boot: function(){ recolor(); } };
-})();
+/* ---------- NET: no-op stub, canvas + Picassion/Weltsicht content removed ---------- */
+var NET = { recolor: function(){}, boot: function(){} };
 
 /* ---------- reveal ---------- */
 (function(){
@@ -1118,17 +1070,99 @@ function restoreOptionalVisibility(){
   });
 }
 
-/* ---------- savebar ---------- */
-function manualSave(){
+/* ---------- dictation hint: small note next to every free-text field pointing at the OS's own dictation shortcut ---------- */
+function initDictateHints(){
+  document.querySelectorAll('textarea.fieldbox[data-field]').forEach(function(ta){
+    if (ta.parentNode.querySelector('.dictate-hint')) return;
+    var span = document.createElement('span');
+    span.className = 'hint dictate-hint';
+    span.setAttribute('data-i18n', 'dictateHint');
+    span.textContent = tr('dictateHint');
+    ta.insertAdjacentElement('afterend', span);
+  });
+}
+
+/* ---------- per-question feedback (auto-injected under every .field) ---------- */
+function initQuestionFeedback(){
+  document.querySelectorAll('.field').forEach(function(f, idx){
+    if (f.querySelector('.qfb')) return;
+    var carrier = f.querySelector('[data-field]');
+    var key = carrier ? carrier.getAttribute('data-field') : ('field_' + idx);
+    var wrap = document.createElement('div');
+    wrap.className = 'qfb';
+    wrap.dataset.qfbKey = key;
+    wrap.innerHTML =
+      '<button type="button" class="qfb-toggle" data-i18n="qfbToggle">' + tr('qfbToggle') + '</button>' +
+      '<div class="qfb-body" hidden>' +
+        '<div class="qfb-chips">' +
+          '<button type="button" class="qfb-chip" data-qfb-tag="klar" data-i18n="qfbTagClear">' + tr('qfbTagClear') + '</button>' +
+          '<button type="button" class="qfb-chip" data-qfb-tag="unklar" data-i18n="qfbTagUnclear">' + tr('qfbTagUnclear') + '</button>' +
+          '<button type="button" class="qfb-chip" data-qfb-tag="ueberfluessig" data-i18n="qfbTagRedundant">' + tr('qfbTagRedundant') + '</button>' +
+          '<button type="button" class="qfb-chip" data-qfb-tag="fehlt" data-i18n="qfbTagMissing">' + tr('qfbTagMissing') + '</button>' +
+        '</div>' +
+        '<textarea class="qfb-note" data-i18n-ph="qfbNotePh" placeholder="' + tr('qfbNotePh') + '"></textarea>' +
+      '</div>';
+    f.appendChild(wrap);
+    var saved = state.qfb[key];
+    if (saved && ((saved.tags && saved.tags.length) || saved.note)){
+      wrap.querySelector('.qfb-body').hidden = false;
+      wrap.querySelector('.qfb-toggle').classList.add('open');
+      if (saved.note) wrap.querySelector('.qfb-note').value = saved.note;
+      if (saved.tags) wrap.querySelectorAll('.qfb-chip').forEach(function(c){
+        if (saved.tags.indexOf(c.dataset.qfbTag) >= 0) c.classList.add('on');
+      });
+    }
+  });
+}
+document.addEventListener('click', function(e){
+  var t = e.target.closest ? e.target.closest('.qfb-toggle') : null;
+  if (!t) return;
+  var body = t.parentNode.querySelector('.qfb-body');
+  body.hidden = !body.hidden;
+  t.classList.toggle('open', !body.hidden);
+});
+document.addEventListener('click', function(e){
+  var c = e.target.closest ? e.target.closest('.qfb-chip') : null;
+  if (!c) return;
+  var wrap = c.closest('.qfb'), key = wrap.dataset.qfbKey;
+  c.classList.toggle('on');
+  var o = state.qfb[key] = state.qfb[key] || {};
+  o.tags = [].slice.call(wrap.querySelectorAll('.qfb-chip.on')).map(function(x){ return x.dataset.qfbTag; });
   save(state);
+});
+document.addEventListener('input', function(e){
+  var el = e.target;
+  if (!(el.matches && el.matches('.qfb-note'))) return;
+  var wrap = el.closest('.qfb'), key = wrap.dataset.qfbKey;
+  var o = state.qfb[key] = state.qfb[key] || {};
+  o.note = el.value;
+  save(state);
+});
+
+/* ---------- savebar ---------- */
+function flashActive(btn){
+  if (!btn) return;
+  document.querySelectorAll('.savebar button.primary').forEach(function(b){ b.classList.remove('primary'); });
+  btn.classList.add('primary');
+  setTimeout(function(){ btn.classList.remove('primary'); }, 1400);
+}
+function manualSave(btn){
+  save(state);
+  if (btn) flashActive(btn);
   var f = document.getElementById('saveFlash');
   if (!f) return;
   f.classList.add('on');
   setTimeout(function(){ f.classList.remove('on'); }, 1400);
 }
+function resetState(){
+  if (!window.confirm(tr('resetConfirm'))) return;
+  try { localStorage.removeItem(LS); } catch(e){}
+  location.reload();
+}
 function exportState(){
   return { exported_at: new Date().toISOString(), quelle: tr('footer'),
-           theme: state._theme || 'dark', sprache: lang, antworten: state.fields, feedback: state.feedback };
+           theme: state._theme || 'dark', sprache: lang, antworten: state.fields, feedback: state.feedback,
+           fragen_feedback: state.qfb };
 }
 function doDownload(){
   var fallback = tr('filenameFallback');
@@ -1147,13 +1181,14 @@ function doDownload(){
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
 }
-function downloadNotes(){
+function downloadNotes(btn){
   doDownload();
   var c = document.getElementById('export-confirm');
   if (c){ c.classList.add('visible'); }
   manualSave();
+  if (btn) flashActive(btn);
 }
-document.getElementById('export-btn').addEventListener('click', downloadNotes);
+document.getElementById('export-btn').addEventListener('click', function(){ downloadNotes(); });
 function importNotes(ev){
   var f = ev.target.files[0];
   if (!f) return;
@@ -1163,6 +1198,7 @@ function importNotes(ev){
       var d = JSON.parse(r.result);
       if (d.antworten) state.fields = d.antworten;
       if (d.feedback) state.feedback = d.feedback;
+      if (d.fragen_feedback) state.qfb = d.fragen_feedback;
       if (d.theme) state._theme = d.theme;
       save(state); location.reload();
     } catch(e){ alert(tr('importAlert')); }
@@ -1176,6 +1212,8 @@ restoreFields();
 restoreFeedback();
 restoreChips();
 restoreOptionalVisibility();
+initQuestionFeedback();
+initDictateHints();
 applyLang(state._lang === 'en' ? 'en' : 'de');
 setTheme(document.documentElement.getAttribute('data-theme') || 'dark');
 measure();
