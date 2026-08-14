@@ -127,6 +127,7 @@ h1.htitle{font-size:clamp(2.1rem,6vw + 1rem,3.6rem);line-height:1.14;font-weight
   padding:1rem 1.7rem;border-radius:var(--r-chip);cursor:pointer;box-shadow:0 10px 26px -10px hsla(var(--h),var(--as),var(--al),.6);
   transition:transform .3s cubic-bezier(.3,1.6,.4,1);}
 .begin-btn:hover{transform:translateY(-2px) scale(1.03);}
+.begin-note{margin-top:10px;font-size:.78rem;font-style:italic;color:hsl(var(--h),var(--as),var(--al));}
 .begin-btn.ghost{background:none;border:1px solid var(--panel-brd);color:var(--ink);box-shadow:none;}
 
 /* community-circle figure (hero) */
@@ -259,6 +260,8 @@ input[type=range].falsify.unset::-moz-range-thumb{opacity:0;}
   background:hsla(var(--h),var(--as),var(--al),.14);color:hsl(var(--h),var(--as),var(--al));
   width:auto;max-width:150px;display:block;}
 .chip-other-input::placeholder{color:hsl(var(--h),var(--as),var(--al));opacity:.75;}
+.cc-del{margin-left:6px;font-size:11px;opacity:.7;cursor:pointer;}
+.cc-del:hover{opacity:1;}
 .fb-chip,.mc-chip{font-family:var(--f-label);font-weight:600;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
   padding:7px 13px;border-radius:var(--r-chip);border:1px solid var(--hair);background:transparent;color:var(--ink3);cursor:pointer;}
 .fb-chip.on,.mc-chip.on{background:hsl(var(--h),var(--as),var(--al));color:var(--bg);border-color:transparent;font-weight:700;}
@@ -402,8 +405,9 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
   <h1 class="htitle" data-i18n-html="htitle">Bevor wir gemeinsam bauen,<br>wollen wir dich kennenlernen.</h1>
   <p class="hero-sub" data-i18n="heroSub1">Eine Einladung, dir selbst zu begegnen — und uns zu zeigen, wer du gerade bist.</p>
   <p class="hero-sub" data-i18n="heroSub2">Du gehst durch bis zu vier Tore, jedes einem Element gewidmet. Nach dem ersten entscheidest du selbst, ob und wie weit du weitergehst. Nichts ist Pflicht.</p>
-  <div class="hero-meta"><span data-i18n="metaServer">Kein Server</span><span data-i18n="metaSkip">Jede Frage überspringbar</span><span data-i18n="metaLocal">Speichert lokal</span><span data-i18n="metaTime">Ca. 10–15 Min., wenn du ganz durchgehst — 3, wenn du beim ersten Tor aufhörst</span></div>
+  <div class="hero-meta"><span data-i18n="metaServer">Kein Server</span><span data-i18n="metaSkip">Jede Frage überspringbar</span><span data-i18n="metaLocal">Speichert lokal</span><span data-i18n="metaTime">Ca. 15–20 Min., wenn du ganz durchgehst — 3, wenn du beim ersten Tor aufhörst</span></div>
   <button class="begin-btn" id="begin-btn" type="button" data-i18n="beginBtn">Ankommen &rarr;</button>
+  <p class="begin-note" data-i18n="beginNote">Lass dir Zeit. Sei einfach ehrlich.</p>
 
   <figure class="circlefig">
     <canvas id="circlecanvas" width="360" height="300" role="img" data-i18n-aria="circleAria" aria-label="Ein Kreis von Menschen, verbunden in der Mitte"></canvas>
@@ -860,8 +864,9 @@ var I18N = {
   metaServer: { de:"Kein Server", en:"No server" },
   metaSkip: { de:"Jede Frage überspringbar", en:"Every question is skippable" },
   metaLocal: { de:"Speichert lokal", en:"Saves locally" },
-  metaTime: { de:"Ca. 10–15 Min., wenn du ganz durchgehst — 3, wenn du beim ersten Tor aufhörst", en:"About 10–15 minutes if you go all the way through — 3 if you stop at the first gate" },
+  metaTime: { de:"Ca. 15–20 Min., wenn du ganz durchgehst — 3, wenn du beim ersten Tor aufhörst", en:"About 15–20 minutes if you go all the way through — 3 if you stop at the first gate" },
   beginBtn: { de:"Ankommen →", en:"Arrive →" },
+  beginNote: { de:"Lass dir Zeit. Sei einfach ehrlich.", en:"Take your time. Just be honest." },
   circleAria: { de:"Ein Kreis von Menschen, verbunden in der Mitte", en:"A circle of people, connected in the middle" },
 
   lawLabel: { de:"Bevor es losgeht", en:"Before we begin" },
@@ -1053,6 +1058,7 @@ var I18N = {
   condOtherPhClimate: { de:"Andere", en:"Other" },
   condOtherPhWaterNature: { de:"Andere", en:"Other" },
   condOtherPhRhythm: { de:"Andere", en:"Other" },
+  customChipRemove: { de:"Entfernen", en:"Remove" },
   qPurposeLabel: { de:"Ganz ungefiltert, ohne es \"richtig\" machen zu müssen: warum bist du hier auf diesem Planeten? Schreib einfach, was kommt.", en:"Right now, unfiltered, no need to get it \"right\": why are you here on this planet? Just write whatever comes." },
   qPurposeHint: { de:"Keine Analyse, keine Formulierung, die \"stimmen\" muss. Nur eine Ahnung.", en:"No analysis, no phrasing that has to be \"right.\" Just a hunch." },
   p3FbSummary: { de:"Notiz zu „Erforschen“", en:"Note on \"Exploring\"" },
@@ -1445,6 +1451,16 @@ function restoreChips(){
     if (isOn) mc.classList.add('on');
   });
 }
+function removeCustomChip(themeField, btn){
+  var value = btn.dataset.value;
+  btn.remove();
+  var arr = (state.fields.schoepfer_bedingungen || '').split(',').filter(Boolean).filter(function(v){ return v !== value; });
+  state.fields.schoepfer_bedingungen = arr.join(',');
+  var listKey = themeField + '_liste';
+  var list = (state.fields[listKey] || '').split(',').filter(Boolean).filter(function(v){ return v !== value; });
+  state.fields[listKey] = list.join(',');
+  save(state);
+}
 function addCustomChip(themeField, value){
   value = value.trim();
   if (!value) return;
@@ -1460,7 +1476,20 @@ function addCustomChip(themeField, value){
   btn.className = 'mc-chip on custom-chip';
   btn.dataset.field = 'schoepfer_bedingungen';
   btn.dataset.value = value;
-  btn.textContent = value;
+  var label = document.createElement('span');
+  label.className = 'cc-label';
+  label.textContent = value;
+  var del = document.createElement('span');
+  del.className = 'cc-del';
+  del.setAttribute('role', 'button');
+  del.setAttribute('aria-label', tr('customChipRemove'));
+  del.textContent = '×';
+  del.addEventListener('click', function(e){
+    e.stopPropagation();
+    removeCustomChip(themeField, btn);
+  });
+  btn.appendChild(label);
+  btn.appendChild(del);
   group.appendChild(btn);
   var arr = (state.fields.schoepfer_bedingungen || '').split(',').filter(Boolean);
   if (arr.indexOf(value) < 0) arr.push(value);
