@@ -126,8 +126,8 @@ h1.htitle{font-size:clamp(2.1rem,6vw + 1rem,3.6rem);line-height:1.14;font-weight
 .hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;justify-content:center;}
 .hero-meta span{font-family:var(--f-label);font-weight:600;font-size:11px;letter-spacing:.09em;text-transform:uppercase;
   color:var(--ink3);border:1px solid var(--hair);border-radius:var(--r-chip);padding:6px 12px;}
-.fifth-el{position:relative;width:100%;max-width:300px;height:190px;margin:22px auto 2px;}
-.fe-stage{position:relative;width:100%;height:100%;}
+.fifth-el{position:relative;width:100%;max-width:300px;height:190px;margin:22px auto 2px;overflow:visible;}
+.fe-stage{position:relative;width:100%;height:100%;overflow:visible;}
 .fe-glyph{position:absolute;left:50%;top:50%;width:52px;height:66px;margin:-33px 0 0 -26px;overflow:visible;}
 .fe-tablet{fill:none;stroke:currentColor;stroke-opacity:.35;stroke-width:1.2;}
 .fe-line{fill:none;stroke:currentColor;stroke-opacity:.9;stroke-width:1.6;stroke-linecap:round;}
@@ -135,21 +135,26 @@ h1.htitle{font-size:clamp(2.1rem,6vw + 1rem,3.6rem);line-height:1.14;font-weight
 .fe-earth{color:hsl(38,var(--as),var(--al));}
 .fe-fire{color:hsl(12,var(--as),var(--al));}
 .fe-air{color:hsl(252,var(--as),var(--al));}
-.fe-fifth{color:hsl(308,78%,64%);width:74px;height:74px;margin:-37px 0 0 -37px;opacity:0;transform:scale(.3);}
 .fe-core{fill:currentColor;fill-opacity:.85;}
-.fe-square{position:absolute;left:50%;top:50%;width:150px;height:150px;margin:-75px 0 0 -75px;overflow:visible;}
-.fe-square path{fill:none;stroke:hsl(308,60%,60%);stroke-opacity:.4;stroke-width:1;stroke-dasharray:396;stroke-dashoffset:396;}
-.fe-spark{position:absolute;left:50%;top:50%;width:4px;height:4px;margin:-2px 0 0 -2px;border-radius:50%;
-  background:hsl(308,90%,75%);opacity:0;box-shadow:0 0 0 0 hsla(308,90%,75%,.8);}
-.fe-3d{position:absolute;left:50%;top:50%;width:160px;height:160px;margin:-80px 0 0 -80px;opacity:0;cursor:grab;}
+.fe-comet,.fe-comet-t1,.fe-comet-t2,.fe-comet-t3{position:absolute;left:50%;top:50%;border-radius:50%;
+  offset-path:path('M75,5 L145,75 L75,145 L5,75 Z');offset-distance:0%;opacity:0;pointer-events:none;}
+.fe-comet{width:6px;height:6px;margin:-3px 0 0 -3px;
+  background:radial-gradient(circle,#fff8e6 0%,hsl(42,90%,72%) 55%,transparent 75%);}
+.fe-comet-t1{width:4px;height:4px;margin:-2px 0 0 -2px;background:hsl(42,85%,68%);}
+.fe-comet-t2{width:3px;height:3px;margin:-1.5px 0 0 -1.5px;background:hsl(42,80%,64%);}
+.fe-comet-t3{width:2px;height:2px;margin:-1px 0 0 -1px;background:hsl(42,75%,60%);}
+.fe-flash{position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;
+  background:radial-gradient(circle,#fffef2 0%,hsl(42,95%,78%) 40%,transparent 72%);opacity:0;pointer-events:none;}
+.fe-3d{position:absolute;left:50%;top:50%;width:160px;height:160px;margin:-80px 0 0 -80px;opacity:0;cursor:grab;overflow:visible;}
 .fe-3d canvas{display:block;width:100%;height:100%;}
-.fe-cube-wrap{position:relative;width:100%;height:100%;perspective:600px;transform-style:preserve-3d;}
-.fe-orb-glow{position:absolute;inset:-20px;border-radius:50%;
-  background:radial-gradient(circle,hsla(200,75%,65%,.28) 0%,hsla(200,75%,55%,.08) 55%,transparent 75%);filter:blur(2px);}
+.fe-cube-wrap{position:relative;width:100%;height:100%;perspective:600px;transform-style:preserve-3d;overflow:visible;}
+.fe-orb-glow{position:absolute;inset:0;overflow:visible;pointer-events:none;}
+.fe-orb-glow svg{width:100%;height:100%;overflow:visible;}
 .fe-cube-outer{position:absolute;inset:0;transform-style:preserve-3d;}
 .fe-cube3d{position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;
   transform-style:preserve-3d;transform:rotateX(-18deg) rotateY(28deg);}
-.fe-face{position:absolute;width:64px;height:64px;border:1px solid hsla(200,75%,68%,.75);background:hsla(200,70%,55%,.08);}
+.fe-face{position:absolute;width:64px;height:64px;border:1px solid hsla(42,80%,72%,.5);background:transparent;}
+.fe-face svg{position:absolute;inset:0;width:100%;height:100%;opacity:.9;}
 .fe-f-front{transform:translateZ(32px);}
 .fe-f-back{transform:translateZ(-32px) rotateY(180deg);}
 .fe-f-right{transform:rotateY(90deg) translateZ(32px);}
@@ -158,36 +163,46 @@ h1.htitle{font-size:clamp(2.1rem,6vw + 1rem,3.6rem);line-height:1.14;font-weight
 .fe-f-bottom{transform:rotateX(-90deg) translateZ(32px);}
 @media (prefers-reduced-motion:no-preference){
   .fe-water{--sx:0px;--sy:-230px;--ex:0px;--ey:-70px;
-    animation-name:fe-fly,fe-corner-out;animation-duration:.9s,.5s;
-    animation-timing-function:cubic-bezier(.22,1,.36,1),ease-in;animation-delay:0s,2.1s;animation-fill-mode:both,both;}
+    animation-name:fe-fly,fe-corner-out,fe-illuminate;animation-duration:.9s,.5s,.5s;
+    animation-timing-function:cubic-bezier(.22,1,.36,1),ease-in,ease-out;
+    animation-delay:0s,2.9s,1.3s;animation-fill-mode:both,both,none;}
   .fe-air{--sx:230px;--sy:0px;--ex:70px;--ey:0px;
-    animation-name:fe-fly,fe-corner-out;animation-duration:.9s,.5s;
-    animation-timing-function:cubic-bezier(.22,1,.36,1),ease-in;animation-delay:.1s,2.1s;animation-fill-mode:both,both;}
+    animation-name:fe-fly,fe-corner-out,fe-illuminate;animation-duration:.9s,.5s,.5s;
+    animation-timing-function:cubic-bezier(.22,1,.36,1),ease-in,ease-out;
+    animation-delay:.1s,2.9s,1.7s;animation-fill-mode:both,both,none;}
   .fe-fire{--sx:0px;--sy:230px;--ex:0px;--ey:70px;
-    animation-name:fe-fly,fe-corner-out;animation-duration:.9s,.5s;
-    animation-timing-function:cubic-bezier(.22,1,.36,1),ease-in;animation-delay:.2s,2.1s;animation-fill-mode:both,both;}
+    animation-name:fe-fly,fe-corner-out,fe-illuminate;animation-duration:.9s,.5s,.5s;
+    animation-timing-function:cubic-bezier(.22,1,.36,1),ease-in,ease-out;
+    animation-delay:.2s,2.9s,2.1s;animation-fill-mode:both,both,none;}
   .fe-earth{--sx:-230px;--sy:0px;--ex:-70px;--ey:0px;
-    animation-name:fe-fly,fe-corner-out;animation-duration:.9s,.5s;
-    animation-timing-function:cubic-bezier(.22,1,.36,1),ease-in;animation-delay:.3s,2.1s;animation-fill-mode:both,both;}
-  .fe-square path{animation:fe-draw .5s ease-out 1.2s both;}
-  .fe-fifth{animation:fe-fifth-in .5s ease-out 2.1s both, fe-fifth-out .4s ease-in 2.6s both;}
-  .fe-spark{animation:fe-spark .45s ease-out 2.55s both;}
-  .fe-3d{animation:fe-3d-in .4s ease-out 2.6s both;}
+    animation-name:fe-fly,fe-corner-out,fe-illuminate;animation-duration:.9s,.5s,.5s;
+    animation-timing-function:cubic-bezier(.22,1,.36,1),ease-in,ease-out;
+    animation-delay:.3s,2.9s,2.5s;animation-fill-mode:both,both,none;}
+  .fe-comet{animation-name:fe-comet-in,fe-comet-travel,fe-comet-fade;animation-duration:.15s,1.6s,.3s;
+    animation-timing-function:ease-out,linear,ease-in;animation-delay:1.3s,1.3s,2.9s;animation-fill-mode:both,both,both;}
+  .fe-comet-t1{animation-name:fe-comet-in,fe-comet-travel,fe-comet-fade;animation-duration:.15s,1.6s,.3s;
+    animation-timing-function:ease-out,linear,ease-in;animation-delay:1.36s,1.36s,2.9s;animation-fill-mode:both,both,both;}
+  .fe-comet-t2{animation-name:fe-comet-in,fe-comet-travel,fe-comet-fade;animation-duration:.15s,1.6s,.3s;
+    animation-timing-function:ease-out,linear,ease-in;animation-delay:1.42s,1.42s,2.9s;animation-fill-mode:both,both,both;}
+  .fe-comet-t3{animation-name:fe-comet-in,fe-comet-travel,fe-comet-fade;animation-duration:.15s,1.6s,.3s;
+    animation-timing-function:ease-out,linear,ease-in;animation-delay:1.48s,1.48s,2.9s;animation-fill-mode:both,both,both;}
+  .fe-flash{animation:fe-flash .4s ease-out 2.9s both;}
+  .fe-3d{animation:fe-3d-in .4s ease-out 2.9s both;}
   .fe-cube-wrap{animation:fe-hue-cycle 9s linear infinite;}
   .fe-cube-outer{animation:fe-autorotate 14s linear infinite;}
   @keyframes fe-fly{ from{transform:translate(var(--sx),var(--sy)) scale(.4);opacity:0;} to{transform:translate(var(--ex),var(--ey)) scale(1);opacity:1;} }
   @keyframes fe-corner-out{ from{opacity:1;transform:translate(var(--ex),var(--ey)) scale(1);} to{opacity:0;transform:translate(var(--ex),var(--ey)) scale(.3);} }
-  @keyframes fe-draw{ from{stroke-dashoffset:396;opacity:0;} to{stroke-dashoffset:0;opacity:1;} }
-  @keyframes fe-fifth-in{ from{opacity:0;transform:scale(.3);} to{opacity:1;transform:scale(1);} }
-  @keyframes fe-fifth-out{ from{opacity:1;} to{opacity:0;} }
-  @keyframes fe-spark{ 0%{opacity:1;transform:scale(1);box-shadow:0 0 0 0 hsla(308,90%,75%,.8);}
-    100%{opacity:0;transform:scale(1);box-shadow:0 0 0 46px hsla(308,90%,75%,0);} }
+  @keyframes fe-illuminate{ 0%{filter:none;} 35%{filter:brightness(2) drop-shadow(0 0 8px currentColor);} 100%{filter:none;} }
+  @keyframes fe-comet-in{ from{opacity:0;} to{opacity:1;} }
+  @keyframes fe-comet-travel{ from{offset-distance:0%;} to{offset-distance:100%;} }
+  @keyframes fe-comet-fade{ from{opacity:1;} to{opacity:0;} }
+  @keyframes fe-flash{ 0%{opacity:0;transform:scale(.3);} 35%{opacity:1;transform:scale(1);} 100%{opacity:0;transform:scale(2.4);} }
   @keyframes fe-3d-in{ from{opacity:0;} to{opacity:1;} }
   @keyframes fe-hue-cycle{ from{filter:hue-rotate(0deg);} to{filter:hue-rotate(360deg);} }
   @keyframes fe-autorotate{ from{transform:rotateY(0deg);} to{transform:rotateY(360deg);} }
 }
 @media (prefers-reduced-motion:reduce){
-  .fe-water,.fe-earth,.fe-fire,.fe-air,.fe-square{display:none;}
+  .fe-water,.fe-earth,.fe-fire,.fe-air,.fe-comet,.fe-comet-t1,.fe-comet-t2,.fe-comet-t3,.fe-flash{display:none;}
   .fe-3d{opacity:1;}
 }
 .begin-btn{margin-top:28px;display:inline-flex;align-items:center;gap:.6rem;
@@ -428,7 +443,7 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
   <p class="hero-sub" data-i18n="heroSub2">Am Ende darfst du dir Notizen machen und sagen, wo du zustimmst und wo nicht.</p>
   <div class="hero-meta"><span data-i18n="metaServer">Kein Server</span><span data-i18n="metaSkip">Jede Frage überspringbar</span><span data-i18n="metaLocal">Speichert lokal</span><span data-i18n="metaTime">Ca. 5–8 Min.</span></div>
   <div class="fifth-el" aria-hidden="true" role="presentation" id="fifthEl">
-    <div class="fe-stage">
+    <div class="fe-stage" id="feStage">
       <svg class="fe-glyph fe-water" viewBox="0 0 52 66">
         <rect class="fe-tablet" x="4" y="4" width="44" height="58" rx="4"/>
         <path class="fe-line" d="M10,12 C15,8.5 19,15.5 24,12 C29,8.5 33,15.5 38,12"/>
@@ -459,22 +474,11 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
         <path class="fe-line" d="M26,10 C22.5,17 29.5,25 26,33 C22.5,41 29.5,49 26,56"/>
         <path class="fe-line" d="M36,10 C32.5,17 39.5,25 36,33 C32.5,41 39.5,49 36,56"/>
       </svg>
-      <svg class="fe-square" viewBox="0 0 150 150">
-        <path d="M75,5 L145,75 L75,145 L5,75 Z"/>
-      </svg>
-      <svg class="fe-glyph fe-fifth" viewBox="0 0 70 70">
-        <circle class="fe-tablet" cx="35" cy="35" r="30"/>
-        <path class="fe-line" d="M10,16 C13.5,13.5 16.5,18.5 20,16"/>
-        <path class="fe-line" d="M10,22 C13.5,19.5 16.5,24.5 20,22"/>
-        <path class="fe-line" d="M10,48 L22,48"/>
-        <path class="fe-line" d="M10,54 L22,54"/>
-        <path class="fe-line" d="M48,10 L48,22"/>
-        <path class="fe-line" d="M54,10 L54,22"/>
-        <path class="fe-line" d="M48,48 C44.5,52 51.5,56 48,60"/>
-        <path class="fe-line" d="M54,48 C50.5,52 57.5,56 54,60"/>
-        <circle class="fe-core" cx="35" cy="35" r="4"/>
-      </svg>
-      <div class="fe-spark"></div>
+      <div class="fe-comet"></div>
+      <div class="fe-comet-t1"></div>
+      <div class="fe-comet-t2"></div>
+      <div class="fe-comet-t3"></div>
+      <div class="fe-flash"></div>
       <div class="fe-3d" id="fe3d"></div>
     </div>
   </div>
@@ -1285,11 +1289,55 @@ function importNotes(ev){
 }
 
 /* ---------- fifth element widget ---------- */
+var GLYPH_PATHS = {
+  water: { hue: 188, d: [
+    "M10,12 C15,8.5 19,15.5 24,12 C29,8.5 33,15.5 38,12",
+    "M10,20 C15,16.5 19,23.5 24,20 C29,16.5 33,23.5 38,20",
+    "M10,28 C15,24.5 19,31.5 24,28 C29,24.5 33,31.5 38,28",
+    "M10,36 C15,32.5 19,39.5 24,36 C29,32.5 33,39.5 38,36",
+    "M10,44 C15,40.5 19,47.5 24,44 C29,40.5 33,47.5 38,44",
+    "M10,52 C15,48.5 19,55.5 24,52 C29,48.5 33,55.5 38,52"
+  ] },
+  earth: { hue: 38, d: [
+    "M10,13 L38,13", "M10,23 L38,23", "M10,33 L38,33", "M10,43 L38,43", "M10,53 L38,53"
+  ] },
+  fire: { hue: 12, d: [
+    "M11,10 L11,56", "M20,10 L20,56", "M30,10 L30,56", "M39,10 L39,56"
+  ] },
+  air: { hue: 252, d: [
+    "M16,10 C12.5,17 19.5,25 16,33 C12.5,41 19.5,49 16,56",
+    "M26,10 C22.5,17 29.5,25 26,33 C22.5,41 29.5,49 26,56",
+    "M36,10 C32.5,17 39.5,25 36,33 C32.5,41 39.5,49 36,56"
+  ] }
+};
+
+function positionGlyphs(stage){
+  var rect = stage.getBoundingClientRect();
+  var cx = rect.left + rect.width / 2;
+  var cy = rect.top + rect.height / 2;
+  var margin = 60;
+  var toTop = cy + margin;
+  var toBottom = (window.innerHeight - cy) + margin;
+  var toLeft = cx + margin;
+  var toRight = (window.innerWidth - cx) + margin;
+  var set = function(sel, sx, sy){
+    var el = stage.querySelector(sel);
+    if (!el) return;
+    el.style.setProperty('--sx', sx + 'px');
+    el.style.setProperty('--sy', sy + 'px');
+  };
+  set('.fe-water', 0, -toTop);
+  set('.fe-air', toRight, 0);
+  set('.fe-fire', 0, toBottom);
+  set('.fe-earth', -toLeft, 0);
+}
+
 function initFifthEl(){
   var stage = document.getElementById('fifthEl');
   if (!stage) return;
   var mount = document.getElementById('fe3d');
   var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!RM) positionGlyphs(stage);
   mountCube(mount, { interactive: !RM, autorotate: !RM });
 }
 
@@ -1329,6 +1377,25 @@ function mountCube(mount, opts){
   }
 }
 
+function makeGlyphTexture(THREE, key){
+  var g = GLYPH_PATHS[key];
+  var size = 128;
+  var canvas = document.createElement('canvas');
+  canvas.width = size; canvas.height = size;
+  var ctx = canvas.getContext('2d');
+  ctx.strokeStyle = 'hsl(' + g.hue + ',75%,68%)';
+  ctx.lineWidth = 3;
+  ctx.lineCap = 'round';
+  var scale = Math.min(size / 52, size / 66) * .82;
+  var ox = (size - 52 * scale) / 2, oy = (size - 66 * scale) / 2;
+  ctx.setTransform(scale, 0, 0, scale, ox, oy);
+  for (var i = 0; i < g.d.length; i++) ctx.stroke(new Path2D(g.d[i]));
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  var tex = new THREE.CanvasTexture(canvas);
+  tex.needsUpdate = true;
+  return tex;
+}
+
 function startThree(THREE, mount, opts){
   var w = mount.clientWidth || 160, h = mount.clientHeight || 160;
   var scene = new THREE.Scene();
@@ -1340,8 +1407,18 @@ function startThree(THREE, mount, opts){
   mount.appendChild(renderer.domElement);
 
   var cubeGeo = new THREE.BoxGeometry(1.5, 1.5, 1.5);
-  var cubeMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: .12, blending: THREE.AdditiveBlending, depthWrite: false });
-  var cube = new THREE.Mesh(cubeGeo, cubeMat);
+  var plainOpts = { color: 0xffffff, transparent: true, opacity: .05, blending: THREE.AdditiveBlending, depthWrite: false };
+  var faceOpts = { transparent: true, opacity: .92, side: THREE.DoubleSide, depthWrite: false };
+  // BoxGeometry material-array group order: +x, -x, +y, -y, +z, -z
+  var materials = [
+    new THREE.MeshBasicMaterial(Object.assign({ map: makeGlyphTexture(THREE, 'fire') }, faceOpts)),
+    new THREE.MeshBasicMaterial(Object.assign({ map: makeGlyphTexture(THREE, 'air') }, faceOpts)),
+    new THREE.MeshBasicMaterial(plainOpts),
+    new THREE.MeshBasicMaterial(plainOpts),
+    new THREE.MeshBasicMaterial(Object.assign({ map: makeGlyphTexture(THREE, 'water') }, faceOpts)),
+    new THREE.MeshBasicMaterial(Object.assign({ map: makeGlyphTexture(THREE, 'earth') }, faceOpts))
+  ];
+  var cube = new THREE.Mesh(cubeGeo, materials);
   scene.add(cube);
   var edgeMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: .85 });
   var edges = new THREE.LineSegments(new THREE.EdgesGeometry(cubeGeo), edgeMat);
@@ -1370,7 +1447,6 @@ function startThree(THREE, mount, opts){
   var col = new THREE.Color();
   function applyHue(hue){
     col.setHSL((hue % 360) / 360, .55, .62);
-    cubeMat.color.copy(col);
     edgeMat.color.copy(col);
     orbMat1.color.copy(col);
     orbMat2.color.copy(col);
@@ -1403,14 +1479,29 @@ function startThree(THREE, mount, opts){
   }
 }
 
+function glyphSvgMarkup(key){
+  var g = GLYPH_PATHS[key];
+  var i, out = '<svg viewBox="0 0 52 66" style="stroke:hsl(' + g.hue + ',72%,66%);fill:none;stroke-width:2;stroke-linecap:round;">';
+  for (i = 0; i < g.d.length; i++) out += '<path d="' + g.d[i] + '"/>';
+  return out + '</svg>';
+}
+
 function startCssFallback(mount, opts){
+  var faceHtml =
+    '<div class="fe-face fe-f-front">' + glyphSvgMarkup('water') + '</div>' +
+    '<div class="fe-face fe-f-back">' + glyphSvgMarkup('earth') + '</div>' +
+    '<div class="fe-face fe-f-right">' + glyphSvgMarkup('fire') + '</div>' +
+    '<div class="fe-face fe-f-left">' + glyphSvgMarkup('air') + '</div>' +
+    '<div class="fe-face fe-f-top"></div><div class="fe-face fe-f-bottom"></div>';
   mount.innerHTML =
-    '<div class="fe-cube-wrap"><div class="fe-orb-glow"></div>' +
-    '<div class="fe-cube-outer"><div class="fe-cube3d">' +
-    '<div class="fe-face fe-f-front"></div><div class="fe-face fe-f-back"></div>' +
-    '<div class="fe-face fe-f-right"></div><div class="fe-face fe-f-left"></div>' +
-    '<div class="fe-face fe-f-top"></div><div class="fe-face fe-f-bottom"></div>' +
-    '</div></div></div>';
+    '<div class="fe-cube-wrap">' +
+    '<div class="fe-orb-glow"><svg viewBox="0 0 160 160"><defs>' +
+    '<radialGradient id="feOrbGrad" cx="50%" cy="50%" r="50%">' +
+    '<stop offset="0%" stop-color="hsl(42,85%,70%)" stop-opacity=".35"/>' +
+    '<stop offset="55%" stop-color="hsl(42,85%,65%)" stop-opacity=".1"/>' +
+    '<stop offset="100%" stop-color="hsl(42,85%,65%)" stop-opacity="0"/>' +
+    '</radialGradient></defs><circle cx="80" cy="80" r="70" fill="url(#feOrbGrad)"/></svg></div>' +
+    '<div class="fe-cube-outer"><div class="fe-cube3d">' + faceHtml + '</div></div></div>';
   if (!opts.interactive) return;
   var cube3d = mount.querySelector('.fe-cube3d');
   var targetX = 0, targetY = 0, curX = 0, curY = 0;
