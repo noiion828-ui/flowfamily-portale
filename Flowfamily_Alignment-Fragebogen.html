@@ -128,9 +128,10 @@ h1.htitle{font-size:clamp(2.1rem,6vw + 1rem,3.6rem);line-height:1.14;font-weight
   color:var(--ink3);border:1px solid var(--hair);border-radius:var(--r-chip);padding:6px 12px;}
 .fifth-el{position:relative;width:100%;max-width:300px;height:190px;margin:22px auto 2px;overflow:visible;}
 .fe-stage{position:relative;width:100%;height:100%;overflow:visible;}
-.fe-glyph{position:absolute;left:50%;top:50%;width:52px;height:66px;margin:-33px 0 0 -26px;overflow:visible;}
+.fe-glyph{position:absolute;left:50%;top:50%;width:52px;height:66px;margin:-33px 0 0 -26px;overflow:visible;opacity:0;}
 .fe-tablet{fill:none;stroke:currentColor;stroke-opacity:.35;stroke-width:1.2;}
 .fe-line{fill:none;stroke:currentColor;stroke-opacity:.9;stroke-width:1.6;stroke-linecap:round;}
+.fe-line-glow{fill:none;stroke:currentColor;stroke-opacity:.16;stroke-width:4.5;stroke-linecap:round;}
 .fe-water{color:hsl(188,var(--as),var(--al));}
 .fe-earth{color:hsl(38,var(--as),var(--al));}
 .fe-fire{color:hsl(12,var(--as),var(--al));}
@@ -162,32 +163,36 @@ h1.htitle{font-size:clamp(2.1rem,6vw + 1rem,3.6rem);line-height:1.14;font-weight
 .fe-f-top{transform:rotateX(90deg) translateZ(32px);}
 .fe-f-bottom{transform:rotateX(-90deg) translateZ(32px);}
 @media (prefers-reduced-motion:no-preference){
-  .fe-water{--sx:0px;--sy:-230px;--ex:0px;--ey:-70px;
+  .fe-water{--sx:0px;--sy:-230px;--ex:0px;--ey:-70px;}
+  .fe-air{--sx:230px;--sy:0px;--ex:70px;--ey:0px;}
+  .fe-fire{--sx:0px;--sy:230px;--ex:0px;--ey:70px;}
+  .fe-earth{--sx:-230px;--sy:0px;--ex:-70px;--ey:0px;}
+  .fifth-el.fe-playing .fe-water{
     animation-name:fe-fly,fe-corner-out,fe-illuminate;animation-duration:.9s,.5s,.5s;
     animation-timing-function:cubic-bezier(.22,1,.36,1),ease-in,ease-out;
     animation-delay:0s,2.9s,1.3s;animation-fill-mode:both,both,none;}
-  .fe-air{--sx:230px;--sy:0px;--ex:70px;--ey:0px;
+  .fifth-el.fe-playing .fe-air{
     animation-name:fe-fly,fe-corner-out,fe-illuminate;animation-duration:.9s,.5s,.5s;
     animation-timing-function:cubic-bezier(.22,1,.36,1),ease-in,ease-out;
     animation-delay:.1s,2.9s,1.7s;animation-fill-mode:both,both,none;}
-  .fe-fire{--sx:0px;--sy:230px;--ex:0px;--ey:70px;
+  .fifth-el.fe-playing .fe-fire{
     animation-name:fe-fly,fe-corner-out,fe-illuminate;animation-duration:.9s,.5s,.5s;
     animation-timing-function:cubic-bezier(.22,1,.36,1),ease-in,ease-out;
     animation-delay:.2s,2.9s,2.1s;animation-fill-mode:both,both,none;}
-  .fe-earth{--sx:-230px;--sy:0px;--ex:-70px;--ey:0px;
+  .fifth-el.fe-playing .fe-earth{
     animation-name:fe-fly,fe-corner-out,fe-illuminate;animation-duration:.9s,.5s,.5s;
     animation-timing-function:cubic-bezier(.22,1,.36,1),ease-in,ease-out;
     animation-delay:.3s,2.9s,2.5s;animation-fill-mode:both,both,none;}
-  .fe-comet{animation-name:fe-comet-in,fe-comet-travel,fe-comet-fade;animation-duration:.15s,1.6s,.3s;
+  .fifth-el.fe-playing .fe-comet{animation-name:fe-comet-in,fe-comet-travel,fe-comet-fade;animation-duration:.15s,1.6s,.3s;
     animation-timing-function:ease-out,linear,ease-in;animation-delay:1.3s,1.3s,2.9s;animation-fill-mode:both,both,both;}
-  .fe-comet-t1{animation-name:fe-comet-in,fe-comet-travel,fe-comet-fade;animation-duration:.15s,1.6s,.3s;
+  .fifth-el.fe-playing .fe-comet-t1{animation-name:fe-comet-in,fe-comet-travel,fe-comet-fade;animation-duration:.15s,1.6s,.3s;
     animation-timing-function:ease-out,linear,ease-in;animation-delay:1.36s,1.36s,2.9s;animation-fill-mode:both,both,both;}
-  .fe-comet-t2{animation-name:fe-comet-in,fe-comet-travel,fe-comet-fade;animation-duration:.15s,1.6s,.3s;
+  .fifth-el.fe-playing .fe-comet-t2{animation-name:fe-comet-in,fe-comet-travel,fe-comet-fade;animation-duration:.15s,1.6s,.3s;
     animation-timing-function:ease-out,linear,ease-in;animation-delay:1.42s,1.42s,2.9s;animation-fill-mode:both,both,both;}
-  .fe-comet-t3{animation-name:fe-comet-in,fe-comet-travel,fe-comet-fade;animation-duration:.15s,1.6s,.3s;
+  .fifth-el.fe-playing .fe-comet-t3{animation-name:fe-comet-in,fe-comet-travel,fe-comet-fade;animation-duration:.15s,1.6s,.3s;
     animation-timing-function:ease-out,linear,ease-in;animation-delay:1.48s,1.48s,2.9s;animation-fill-mode:both,both,both;}
-  .fe-flash{animation:fe-flash .4s ease-out 2.9s both;}
-  .fe-3d{animation:fe-3d-in .4s ease-out 2.9s both;}
+  .fifth-el.fe-playing .fe-flash{animation:fe-flash .4s ease-out 2.9s both;}
+  .fifth-el.fe-playing .fe-3d{animation:fe-3d-in .4s ease-out 2.9s both;}
   .fe-cube-wrap{animation:fe-hue-cycle 9s linear infinite;}
   .fe-cube-outer{animation:fe-autorotate 14s linear infinite;}
   @keyframes fe-fly{ from{transform:translate(var(--sx),var(--sy)) scale(.4);opacity:0;} to{transform:translate(var(--ex),var(--ey)) scale(1);opacity:1;} }
@@ -446,33 +451,51 @@ footer.credit{padding:44px 0 30px;text-align:center;font-family:var(--f-label);f
     <div class="fe-stage" id="feStage">
       <svg class="fe-glyph fe-water" viewBox="0 0 52 66">
         <rect class="fe-tablet" x="4" y="4" width="44" height="58" rx="4"/>
-        <path class="fe-line" d="M10,12 C15,8.5 19,15.5 24,12 C29,8.5 33,15.5 38,12"/>
-        <path class="fe-line" d="M10,20 C15,16.5 19,23.5 24,20 C29,16.5 33,23.5 38,20"/>
-        <path class="fe-line" d="M10,28 C15,24.5 19,31.5 24,28 C29,24.5 33,31.5 38,28"/>
-        <path class="fe-line" d="M10,36 C15,32.5 19,39.5 24,36 C29,32.5 33,39.5 38,36"/>
-        <path class="fe-line" d="M10,44 C15,40.5 19,47.5 24,44 C29,40.5 33,47.5 38,44"/>
-        <path class="fe-line" d="M10,52 C15,48.5 19,55.5 24,52 C29,48.5 33,55.5 38,52"/>
+        <path class="fe-line-glow" d="M10,12 C15,8.8 19,15.1 24,12 C29,8.9 33,15.2 38,12"/>
+        <path class="fe-line" d="M10,12 C15,8.8 19,15.1 24,12 C29,8.9 33,15.2 38,12"/>
+        <path class="fe-line-glow" d="M9,20 C14.5,15.7 18.5,24.2 24,20 C29.5,15.6 33.5,24.3 39,20"/>
+        <path class="fe-line" d="M9,20 C14.5,15.7 18.5,24.2 24,20 C29.5,15.6 33.5,24.3 39,20"/>
+        <path class="fe-line-glow" d="M11,28 C16,24.4 20,31.7 25,28 C30,24.5 34,31.6 38,28"/>
+        <path class="fe-line" d="M11,28 C16,24.4 20,31.7 25,28 C30,24.5 34,31.6 38,28"/>
+        <path class="fe-line-glow" d="M10,36 C15.5,31.4 19.5,40.3 25,36 C30.5,31.3 34.5,40.4 39,36"/>
+        <path class="fe-line" d="M10,36 C15.5,31.4 19.5,40.3 25,36 C30.5,31.3 34.5,40.4 39,36"/>
+        <path class="fe-line-glow" d="M10,44 C15,41 19,47 24,44 C29,41.1 33,46.9 38,44"/>
+        <path class="fe-line" d="M10,44 C15,41 19,47 24,44 C29,41.1 33,46.9 38,44"/>
+        <path class="fe-line-glow" d="M9,52 C14.5,48 18.5,56 24,52 C29.5,48.1 33.5,55.9 39,52"/>
+        <path class="fe-line" d="M9,52 C14.5,48 18.5,56 24,52 C29.5,48.1 33.5,55.9 39,52"/>
       </svg>
       <svg class="fe-glyph fe-earth" viewBox="0 0 52 66">
         <rect class="fe-tablet" x="4" y="4" width="44" height="58" rx="4"/>
-        <path class="fe-line" d="M10,13 L38,13"/>
-        <path class="fe-line" d="M10,23 L38,23"/>
+        <path class="fe-line-glow" d="M9,13 L39,13"/>
+        <path class="fe-line" d="M9,13 L39,13"/>
+        <path class="fe-line-glow" d="M11,23 L37,23"/>
+        <path class="fe-line" d="M11,23 L37,23"/>
+        <path class="fe-line-glow" d="M10,33 L38,33"/>
         <path class="fe-line" d="M10,33 L38,33"/>
-        <path class="fe-line" d="M10,43 L38,43"/>
-        <path class="fe-line" d="M10,53 L38,53"/>
+        <path class="fe-line-glow" d="M11,43 L38,43"/>
+        <path class="fe-line" d="M11,43 L38,43"/>
+        <path class="fe-line-glow" d="M9,53 L39,53"/>
+        <path class="fe-line" d="M9,53 L39,53"/>
       </svg>
       <svg class="fe-glyph fe-fire" viewBox="0 0 52 66">
         <rect class="fe-tablet" x="4" y="4" width="44" height="58" rx="4"/>
-        <path class="fe-line" d="M11,10 L11,56"/>
-        <path class="fe-line" d="M20,10 L20,56"/>
-        <path class="fe-line" d="M30,10 L30,56"/>
-        <path class="fe-line" d="M39,10 L39,56"/>
+        <path class="fe-line-glow" d="M11,10 Q13,33 11,56"/>
+        <path class="fe-line" d="M11,10 Q13,33 11,56"/>
+        <path class="fe-line-glow" d="M20,10 Q17.5,33 20,56"/>
+        <path class="fe-line" d="M20,10 Q17.5,33 20,56"/>
+        <path class="fe-line-glow" d="M30,10 Q32.5,33 30,56"/>
+        <path class="fe-line" d="M30,10 Q32.5,33 30,56"/>
+        <path class="fe-line-glow" d="M39,10 Q36.5,33 39,56"/>
+        <path class="fe-line" d="M39,10 Q36.5,33 39,56"/>
       </svg>
       <svg class="fe-glyph fe-air" viewBox="0 0 52 66">
         <rect class="fe-tablet" x="4" y="4" width="44" height="58" rx="4"/>
-        <path class="fe-line" d="M16,10 C12.5,17 19.5,25 16,33 C12.5,41 19.5,49 16,56"/>
-        <path class="fe-line" d="M26,10 C22.5,17 29.5,25 26,33 C22.5,41 29.5,49 26,56"/>
-        <path class="fe-line" d="M36,10 C32.5,17 39.5,25 36,33 C32.5,41 39.5,49 36,56"/>
+        <path class="fe-line-glow" d="M16,10 C12.8,17 19.2,25 16,33 C12.8,41 19.2,49 16,56"/>
+        <path class="fe-line" d="M16,10 C12.8,17 19.2,25 16,33 C12.8,41 19.2,49 16,56"/>
+        <path class="fe-line-glow" d="M26,10 C22,17.3 30,24.7 26,33 C22,41.3 30,48.7 26,56"/>
+        <path class="fe-line" d="M26,10 C22,17.3 30,24.7 26,33 C22,41.3 30,48.7 26,56"/>
+        <path class="fe-line-glow" d="M36,10 C33.1,17 38.9,25.1 36,33 C33.1,41 38.9,49.1 36,56"/>
+        <path class="fe-line" d="M36,10 C33.1,17 38.9,25.1 36,33 C33.1,41 38.9,49.1 36,56"/>
       </svg>
       <div class="fe-comet"></div>
       <div class="fe-comet-t1"></div>
@@ -1291,23 +1314,23 @@ function importNotes(ev){
 /* ---------- fifth element widget ---------- */
 var GLYPH_PATHS = {
   water: { hue: 188, d: [
-    "M10,12 C15,8.5 19,15.5 24,12 C29,8.5 33,15.5 38,12",
-    "M10,20 C15,16.5 19,23.5 24,20 C29,16.5 33,23.5 38,20",
-    "M10,28 C15,24.5 19,31.5 24,28 C29,24.5 33,31.5 38,28",
-    "M10,36 C15,32.5 19,39.5 24,36 C29,32.5 33,39.5 38,36",
-    "M10,44 C15,40.5 19,47.5 24,44 C29,40.5 33,47.5 38,44",
-    "M10,52 C15,48.5 19,55.5 24,52 C29,48.5 33,55.5 38,52"
+    "M10,12 C15,8.8 19,15.1 24,12 C29,8.9 33,15.2 38,12",
+    "M9,20 C14.5,15.7 18.5,24.2 24,20 C29.5,15.6 33.5,24.3 39,20",
+    "M11,28 C16,24.4 20,31.7 25,28 C30,24.5 34,31.6 38,28",
+    "M10,36 C15.5,31.4 19.5,40.3 25,36 C30.5,31.3 34.5,40.4 39,36",
+    "M10,44 C15,41 19,47 24,44 C29,41.1 33,46.9 38,44",
+    "M9,52 C14.5,48 18.5,56 24,52 C29.5,48.1 33.5,55.9 39,52"
   ] },
   earth: { hue: 38, d: [
-    "M10,13 L38,13", "M10,23 L38,23", "M10,33 L38,33", "M10,43 L38,43", "M10,53 L38,53"
+    "M9,13 L39,13", "M11,23 L37,23", "M10,33 L38,33", "M11,43 L38,43", "M9,53 L39,53"
   ] },
   fire: { hue: 12, d: [
-    "M11,10 L11,56", "M20,10 L20,56", "M30,10 L30,56", "M39,10 L39,56"
+    "M11,10 Q13,33 11,56", "M20,10 Q17.5,33 20,56", "M30,10 Q32.5,33 30,56", "M39,10 Q36.5,33 39,56"
   ] },
   air: { hue: 252, d: [
-    "M16,10 C12.5,17 19.5,25 16,33 C12.5,41 19.5,49 16,56",
-    "M26,10 C22.5,17 29.5,25 26,33 C22.5,41 29.5,49 26,56",
-    "M36,10 C32.5,17 39.5,25 36,33 C32.5,41 39.5,49 36,56"
+    "M16,10 C12.8,17 19.2,25 16,33 C12.8,41 19.2,49 16,56",
+    "M26,10 C22,17.3 30,24.7 26,33 C22,41.3 30,48.7 26,56",
+    "M36,10 C33.1,17 38.9,25.1 36,33 C33.1,41 38.9,49.1 36,56"
   ] }
 };
 
@@ -1334,11 +1357,29 @@ function positionGlyphs(stage){
 
 function initFifthEl(){
   var stage = document.getElementById('fifthEl');
-  if (!stage) return;
+  var feStage = document.getElementById('feStage');
+  if (!stage || !feStage) return;
   var mount = document.getElementById('fe3d');
   var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!RM) positionGlyphs(stage);
   mountCube(mount, { interactive: !RM, autorotate: !RM });
+
+  if (RM || !('IntersectionObserver' in window)) return;
+
+  function playSequence(){
+    stage.classList.remove('fe-playing');
+    positionGlyphs(stage);
+    void stage.offsetWidth; // force reflow so the CSS animation-delay timeline restarts from 0
+    stage.classList.add('fe-playing');
+  }
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      mount._feVisible = en.isIntersecting;
+      if (en.isIntersecting) playSequence();
+      else stage.classList.remove('fe-playing');
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
+  io.observe(feStage);
 }
 
 function mountCube(mount, opts){
@@ -1383,13 +1424,21 @@ function makeGlyphTexture(THREE, key){
   var canvas = document.createElement('canvas');
   canvas.width = size; canvas.height = size;
   var ctx = canvas.getContext('2d');
-  ctx.strokeStyle = 'hsl(' + g.hue + ',75%,68%)';
-  ctx.lineWidth = 3;
   ctx.lineCap = 'round';
   var scale = Math.min(size / 52, size / 66) * .82;
   var ox = (size - 52 * scale) / 2, oy = (size - 66 * scale) / 2;
   ctx.setTransform(scale, 0, 0, scale, ox, oy);
-  for (var i = 0; i < g.d.length; i++) ctx.stroke(new Path2D(g.d[i]));
+  var i, paths = [];
+  for (i = 0; i < g.d.length; i++) paths.push(new Path2D(g.d[i]));
+  ctx.save();
+  ctx.strokeStyle = 'hsl(' + g.hue + ',75%,68%)';
+  ctx.globalAlpha = .16;
+  ctx.lineWidth = 8;
+  for (i = 0; i < paths.length; i++) ctx.stroke(paths[i]);
+  ctx.restore();
+  ctx.strokeStyle = 'hsl(' + g.hue + ',75%,68%)';
+  ctx.lineWidth = 3;
+  for (i = 0; i < paths.length; i++) ctx.stroke(paths[i]);
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   var tex = new THREE.CanvasTexture(canvas);
   tex.needsUpdate = true;
@@ -1399,11 +1448,14 @@ function makeGlyphTexture(THREE, key){
 function startThree(THREE, mount, opts){
   var w = mount.clientWidth || 160, h = mount.clientHeight || 160;
   var scene = new THREE.Scene();
+  scene.background = null;
   var camera = new THREE.PerspectiveCamera(42, w / h, 0.1, 100);
   camera.position.z = 4.6;
-  var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, premultipliedAlpha: false });
+  renderer.setClearColor(0x000000, 0);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.setSize(w, h);
+  renderer.domElement.style.background = 'transparent';
   mount.appendChild(renderer.domElement);
 
   var cubeGeo = new THREE.BoxGeometry(1.5, 1.5, 1.5);
@@ -1456,6 +1508,7 @@ function startThree(THREE, mount, opts){
     var hue = 188, autoX = .5, autoY = .7;
     (function tick(){
       requestAnimationFrame(tick);
+      if (mount._feVisible === false) return;
       hue += .08;
       if (hue > 360) hue -= 360;
       applyHue(hue);
@@ -1481,8 +1534,11 @@ function startThree(THREE, mount, opts){
 
 function glyphSvgMarkup(key){
   var g = GLYPH_PATHS[key];
-  var i, out = '<svg viewBox="0 0 52 66" style="stroke:hsl(' + g.hue + ',72%,66%);fill:none;stroke-width:2;stroke-linecap:round;">';
-  for (i = 0; i < g.d.length; i++) out += '<path d="' + g.d[i] + '"/>';
+  var i, out = '<svg viewBox="0 0 52 66" style="fill:none;stroke-linecap:round;">';
+  for (i = 0; i < g.d.length; i++){
+    out += '<path d="' + g.d[i] + '" style="stroke:hsl(' + g.hue + ',72%,66%);stroke-opacity:.16;stroke-width:5.5;"/>';
+    out += '<path d="' + g.d[i] + '" style="stroke:hsl(' + g.hue + ',72%,66%);stroke-width:2;"/>';
+  }
   return out + '</svg>';
 }
 
@@ -1515,6 +1571,7 @@ function startCssFallback(mount, opts){
   mount.addEventListener('mouseleave', function(){ targetX = 0; targetY = 0; });
   (function tick(){
     requestAnimationFrame(tick);
+    if (mount._feVisible === false) return;
     curX += (targetX - curX) * .08;
     curY += (targetY - curY) * .08;
     cube3d.style.transform = 'rotateX(' + (-18 + curX) + 'deg) rotateY(' + (28 + curY) + 'deg)';
